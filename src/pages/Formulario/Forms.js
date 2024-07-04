@@ -98,14 +98,13 @@ const Forms = () => {
       setExibirfilho(parseInt(event.target.value));
     }
 
-    console.log(setCadMembers);
+    
   };
 
 
   const handleSubmitForm = async (event) => {
     try {
-      event.preventDefault();
-
+      
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/membros",
         {
@@ -118,16 +117,18 @@ const Forms = () => {
           mode: "cors",
         }
       );
-
+      
       const json = await response.json();
       console.log(json);
       console.log(response.status);
     } catch (error) {
       console.log(error);
     }
-
+    
     setCadMembers("");
+    alert("Cadastro Realizado com sucesso!")
     console.log(cadMembers);
+    event.preventDefault();
   };
 
   const buscaCep = (e) => {
@@ -157,11 +158,14 @@ const Forms = () => {
   };
 
   return (
+    <Container className="p-5 w-100 h-100" >
     <form onSubmit={handleSubmitForm}>
       {exibir === "secao1" && (
         <Container style={{ height: "100vh" }}>
           <Row>
-            <h3>Dados Pessoais</h3>
+            <div className="p-3 mb-2 bg-primary-subtle text-center">
+            <p className="fs-3">Dados Pessoais</p>
+            </div>
             <label className="d-none ">
               <label>
                 <input
@@ -182,11 +186,13 @@ const Forms = () => {
                 disabled
               />
             </label>
-
-            <label className="col-md-6">
-              <p>Nome Completo</p>
+          
+            <label for="floatingInput" className="col-md-6 mb-4 ">
+              <p className="n1">Nome Completo</p>
               <input
                 className="form-control"
+                id="floatingInput"
+                placeholder="Digite o seu nome"
                 type="text"
                 name="name"
                 value={cadMembers.name || ""}
@@ -195,8 +201,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Nome da Mãe</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Nome da Mãe</p>
               <input
                 className="form-control"
                 type="text"
@@ -206,8 +212,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Nome do Pai</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Nome do Pai</p>
               <input
                 className="form-control"
                 type="text"
@@ -218,8 +224,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Data de nascimento</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Data de nascimento</p>
               <input
                 className="form-control"
                 type="date"
@@ -230,8 +236,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Sexo</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Sexo</p>
               <select
                 className="form-control"
                 name="sex"
@@ -244,8 +250,8 @@ const Forms = () => {
               </select>
             </label>
 
-            <label className="col-md-6">
-              <p>Telefone</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Telefone</p>
               <IMaskInput
                 className="form-control"
                 type="text"
@@ -258,8 +264,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Telefone 2</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Telefone 2</p>
               <IMaskInput
                 className="form-control"
                 type="text"
@@ -271,8 +277,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>E-mail</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">E-mail</p>
               <input
                 className="form-control"
                 type="email"
@@ -284,8 +290,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Nacionalidade</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Nacionalidade</p>
               <input
                 className="form-control"
                 type="text"
@@ -296,8 +302,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Naturalidade</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Naturalidade</p>
               <input
                 className="form-control"
                 type="text"
@@ -307,8 +313,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Profissão</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Profissão</p>
               <input
                 className="form-control"
                 type="text"
@@ -318,8 +324,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Empresa que trabalha </p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Empresa que trabalha </p>
               <input
                 className="form-control"
                 type="text"
@@ -329,8 +335,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Grau de escolaridade</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Grau de escolaridade</p>
               <select
                 className="form-control"
                 aria-label="Default select example"
@@ -346,8 +352,8 @@ const Forms = () => {
               </select>
             </label>
 
-            <label className="col-md-6">
-              <p>CEP</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">CEP</p>
               <IMaskInput
                 className="form-control"
                 mask="00000-000"
@@ -359,8 +365,8 @@ const Forms = () => {
                 onBlur={buscaCep}
               />
             </label>
-            <label className="col-md-6">
-              <p>Endereço</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Endereço</p>
               <input
                 className="form-control"
                 type="text"
@@ -369,8 +375,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Número</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Número</p>
               <input
                 className="form-control"
                 type="text"
@@ -380,8 +386,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Complemento</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Complemento</p>
               <input
                 className="form-control"
                 type="text"
@@ -390,8 +396,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Bairro</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Bairro</p>
               <input
                 className="form-control"
                 type="text"
@@ -402,8 +408,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Cidade</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Cidade</p>
               <input
                 className="form-control"
                 type="text"
@@ -413,8 +419,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Estado</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Estado</p>
               <input
                 className="form-control"
                 type="text"
@@ -425,8 +431,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Quanto tempo está no mesmo endereço?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Quanto tempo está no mesmo endereço?</p>
               <input
                 className="form-control"
                 type="text"
@@ -435,7 +441,7 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <div className="col-xs2">
+            <div className="col-xs2 py-5">
               <button
                 className={`btn btn-primary mt-4 nav-Link ${
                   exibir === "secao1" ? "active" : ""
@@ -451,9 +457,12 @@ const Forms = () => {
       {exibir === "secao2" && (
         <Container style={{ height: "100vh" }}>
           <Row>
-            <h3 className="text-center">Relacionamento</h3>
-            <label className="col-md-6">
-              <p>Estado Civil</p>
+          <div className="p-3 mb-2 bg-primary-subtle text-center">
+            <p className="fs-3">Relacionamento</p>
+            </div>
+            
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Estado Civil</p>
               <select
                 className="form-control"
                 name="estadocivil"
@@ -467,8 +476,8 @@ const Forms = () => {
                 <option value="Divorciado">Divocriado</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Nome do Conjugê</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Nome do Conjugê</p>
               <input
                 className="form-control"
                 type="text"
@@ -479,8 +488,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Possui Filhos</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Possui Filhos</p>
               <select
                 className="form-control"
                 name="filhos"
@@ -494,8 +503,8 @@ const Forms = () => {
               </select>
             </label>
 
-            <label className="col-md-6">
-              <p>Quantidade de filhos</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Quantidade de filhos</p>
               <select
                 className="form-control"
                 name="qtdfilhos"
@@ -627,8 +636,8 @@ const Forms = () => {
               </Container>
             )}
 
-            <label className="col-md-6">
-              <p>Qual cargo exerce no ministério</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual cargo exerce no ministério</p>
               <input
                 className="form-control"
                 type="text"
@@ -638,8 +647,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Exerce o cargo a quanto tempo?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Exerce o cargo a quanto tempo?</p>
               <input
                 className="form-control"
                 type="number"
@@ -649,8 +658,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Qual congregação você pertence?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual congregação você pertence?</p>
               <select
                 className="form-control"
                 name="congregacao"
@@ -658,6 +667,7 @@ const Forms = () => {
                 value={cadMembers.congregacao || ""}
                 onChange={handleSubmitCamps}
               >
+                <option value="">Selecione</option>
                 <option value="105">105</option>
                 <option value="110">110</option>
                 <option value="qnq">Qnq</option>
@@ -666,8 +676,8 @@ const Forms = () => {
               </select>
             </label>
 
-            <label className="col-md-6">
-              <p>Primeiro Casamento?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Primeiro Casamento?</p>
               <select
                 className="form-control"
                 name="optionprimeirocasamento"
@@ -680,8 +690,8 @@ const Forms = () => {
                 <option value="nao">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Casaram-se em cerimônia cristã?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Casaram-se em cerimônia cristã?</p>
               <select
                 className="form-control"
                 name="casamentocristao"
@@ -694,8 +704,8 @@ const Forms = () => {
                 <option value="nao">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Nesse momento, seu cônjuge se tornará membro junto com você?
               </p>
               <select
@@ -711,7 +721,7 @@ const Forms = () => {
               </select>
             </label>
             <label className="col-md">
-              <p>Se não, justificar motivo</p>
+              <p className="fs-6">Se não, justificar motivo</p>
 
               <textarea
                 className="form-control"
@@ -725,7 +735,7 @@ const Forms = () => {
             </label>
 
             <Row>
-              <Col className="col bd-highlight">
+              <Col className="col bd-highlight py-5">
                 <button
                   className={`btn btn-primary mt-4 nav-Link ${
                     exibir === "secao2" ? "active" : ""
@@ -735,7 +745,7 @@ const Forms = () => {
                   Voltar
                 </button>
               </Col>
-              <Col className="col d-flex justify-content-end">
+              <Col className="col d-flex justify-content-end py-5">
                 <button
                   className={` btn btn-primary mt-4 nav-Link ${
                     exibir === "secao2" ? "active" : ""
@@ -752,9 +762,13 @@ const Forms = () => {
       {exibir === "secao3" && (
         <Container>
           <Row>
-            <h3 className="text-center">Histórico Cristão</h3>
-            <label className="col-md-6">
-              <p>Qual a foi a data de conversão</p>
+          <div className="p-3 mb-2 bg-primary-subtle text-center">
+            <p className="fs-3">Histórico Cristão</p>
+            </div>
+            
+          
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual a foi a data de conversão</p>
               <input
                 className="form-control"
                 type="date"
@@ -764,8 +778,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Qual foi sua data de batismo nas águas</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual foi sua data de batismo nas águas</p>
               <input
                 className="form-control"
                 type="date"
@@ -776,8 +790,8 @@ const Forms = () => {
               />
             </label>
 
-            <label className="col-md-6">
-              <p>Qual foi a sua última igreja?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual foi a sua última igreja?</p>
               <input
                 className="form-control"
                 type="text"
@@ -787,8 +801,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Por qual motivo você saiu dela?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Por qual motivo você saiu dela?</p>
               <input
                 className="form-control"
                 type="text"
@@ -798,8 +812,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-12">
-              <p>
+            <label className="col-md-12 mb-4">
+              <p className="fs-6">
                 Quais foram as igrejas que você foi membro desde a sua
                 conversão?
               </p>
@@ -813,8 +827,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>Você é dizimista fiel? </p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você é dizimista fiel? </p>
               <select
                 className="form-control"
                 name="dizimista"
@@ -827,8 +841,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Você é ofertante fiel? </p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você é ofertante fiel? </p>
               <select
                 className="form-control"
                 name="ofertante"
@@ -841,9 +855,9 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
-                Você exerceu algum cargo de liderança nas igrejas que passou?{" "}
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
+                Você exerceu algum cargo de liderança nas igrejas que passou?
               </p>
               <select
                 className="form-control"
@@ -857,8 +871,8 @@ const Forms = () => {
                 <option value="nao">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Você foi separado/consagrado a algum cargo ministerial? </p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você foi separado/consagrado a algum cargo ministerial? </p>
               <select
                 className="form-control"
                 name="separadoanterior"
@@ -871,8 +885,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Qual era a sua posição</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Qual era a sua posição</p>
               <input
                 className="form-control"
                 type="text"
@@ -882,8 +896,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6">
-              <p>Quais eram as suas atividades?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Quais eram as suas atividades?</p>
               <input
                 className="form-control"
                 type="text"
@@ -895,7 +909,7 @@ const Forms = () => {
             </label>
 
             <Row>
-              <Col className="col bd-highlight">
+              <Col className="col bd-highlight py-5">
                 <button
                   className={`btn btn-primary mt-4 nav-Link ${
                     exibir === "secao3" ? "active" : ""
@@ -905,7 +919,7 @@ const Forms = () => {
                   Voltar
                 </button>
               </Col>
-              <Col className="col d-flex justify-content-end">
+              <Col className="col d-flex justify-content-end py-5">
                 <button
                   className={`btn btn-primary mt-4 nav-Link ${
                     exibir === "secao3" ? "active" : ""
@@ -922,10 +936,13 @@ const Forms = () => {
       {exibir === "secao4" && (
         <Container>
           <Row>
-            <h3 className="text-center">Histórico Congracional</h3>
+          <div className="p-3 mb-2 bg-primary-subtle text-center">
+            <p className="fs-3">Histórico Congracional</p>
+            </div>
+            
 
-            <label className="col-md-6">
-              <p>Tem algum problema com liderança, hierarquia e pastoreio?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Tem algum problema com liderança, hierarquia e pastoreio?</p>
               <select
                 className="form-control"
                 name="problema"
@@ -938,10 +955,9 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
-                Há algum problema em ser corrigido quando a conduta estiver fora
-                dos padrões bíblicos?
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
+              Há problema em ser corrigido por conduta fora dos padrões bíblicos?
               </p>
               <select
                 className="form-control"
@@ -955,8 +971,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Você se considera um discípulo de Jesus com coração
                 pastoreável/ensinável?
               </p>
@@ -972,8 +988,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Tem o hábito de participar de cultos de estudo bíblico e EBDs?
               </p>
               <select
@@ -988,8 +1004,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Costuma informar seus pastores sobre ausências na adoração
                 coletiva?
               </p>
@@ -1006,8 +1022,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>Tem o hábito de participar de cultos de oração?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Tem o hábito de participar de cultos de oração?</p>
               <select
                 className="form-control"
                 name="cultosdeoracao"
@@ -1020,8 +1036,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Tem o hábito de buscar aconselhamento pastoral?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Tem o hábito de buscar aconselhamento pastoral?</p>
               <select
                 className="form-control"
                 name="aconselhamentopastoral"
@@ -1034,9 +1050,9 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
-                Valoriza o desenvolvimento da vida em comunidade, congregar e
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
+                Valoriza o desenv. da vida em comunidade, congregar e
                 servir uns aos outros?
               </p>
               <select
@@ -1051,7 +1067,7 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <Col className="col d-flex justify-content-start">
+            <Col className="col d-flex justify-content-start py-5">
               <button
                 className={`btn btn-primary mt-4 nav-Link ${
                   exibir === "secao4" ? "active" : ""
@@ -1061,7 +1077,7 @@ const Forms = () => {
                 Voltar
               </button>
             </Col>
-            <Col className="col d-flex justify-content-end">
+            <Col className="col d-flex justify-content-end py-5">
               <button
                 variant="btn btn-primary mt-4"
                 size="lg"
@@ -1079,9 +1095,12 @@ const Forms = () => {
       {exibir === "secao5" && (
         <Container>
           <Row>
-            <h3 className="text-center">Convicções</h3>
-            <label className="col-md-6">
-              <p>
+          <div className="w-20">
+            <p className="p-3 mb-2 fs-3 w-10 text-white  bg-primary text-center ">Convicções</p>
+            </div>
+            
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 O que te faz convicto de que você é um verdadeiro discípulo de
                 Jesus?
               </p>
@@ -1098,8 +1117,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Como você define o evangelho?
               </p>
               <textarea
@@ -1113,8 +1132,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Quais frutos do Espírito que podem ser claramente percebidos na
                 vida?
               </p>
@@ -1131,8 +1150,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Como cuida do desenvolvimento e sua fé e da sua comunhão com
                 Deus?
               </p>
@@ -1149,8 +1168,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Existe algum pecado contra qual você tenha lutado nos últimos
                 anos?
               </p>
@@ -1166,8 +1185,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>Você tem convicções teológicas? Quais seriam?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você tem convicções teológicas? Quais seriam?</p>
 
               <textarea
                 className="form-control"
@@ -1180,8 +1199,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               ></textarea>
             </label>
-            <label className="col-md-6">
-              <p>Você tem o hábito de evangelizar?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você tem o hábito de evangelizar?</p>
               <select
                 className="form-control"
                 name="evangelizar"
@@ -1194,8 +1213,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Você tem o hábito de jejuar?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você tem o hábito de jejuar?</p>
               <select
                 className="form-control"
                 name="jejuar"
@@ -1208,8 +1227,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>Você já leu a bíblia toda alguma vez?</p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">Você já leu a bíblia toda alguma vez?</p>
               <select
                 className="form-control"
                 name="leiturabiblica"
@@ -1222,8 +1241,8 @@ const Forms = () => {
                 <option value="não">Não</option>
               </select>
             </label>
-            <label className="col-md-6">
-              <p>
+            <label className="col-md-6 mb-4">
+              <p className="fs-6">
                 Quais os últimos 3 livros que você leu que edificaram a sua fé?
               </p>
               <input
@@ -1235,8 +1254,8 @@ const Forms = () => {
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-12">
-              <p>Tem alguma coisa a mais que você queria nos contar?</p>
+            <label className="col-md-12 mb-4">
+              <p className="fs-6">Tem alguma coisa a mais que você queria nos contar?</p>
 
               <textarea
                 className="form-control"
@@ -1252,7 +1271,7 @@ const Forms = () => {
             </label>
           </Row>
           <Row>
-            <Col className="col bd-highlight">
+            <Col className="col bd-highlight py-5">
               <button
                 size=""
                 className={`btn btn-primary lg mt-4 nav-Link ${
@@ -1263,15 +1282,17 @@ const Forms = () => {
                 Voltar
               </button>
             </Col>
-            <Col className="col d-flex justify-content-end">
-              <button className="btn btn-primary mt-4" type="submit">
+            <Col className="col d-flex justify-content-end py-5">
+              <button className="btn btn-primary mt-4 "data-bs-dismiss="toast" type="submit">
                 Enviar
               </button>
             </Col>
           </Row>
         </Container>
       )}
+    
     </form>
+    </Container>
   );
 };
 
