@@ -1,8 +1,7 @@
 import React from "react";
 import { useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
-
+import { IMaskInput } from "react-imask";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -13,7 +12,8 @@ const Forms = () => {
     const dia = data.getDate();
     const mes = data.getMonth() + 1;
     const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+    return `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano}`;
+    
   };
 
   const [cadMembers, setCadMembers] = useState({
@@ -97,7 +97,10 @@ const Forms = () => {
     if (event.target.name === "qtdfilhos") {
       setExibirfilho(parseInt(event.target.value));
     }
+
+    console.log(setCadMembers);
   };
+
 
   const handleSubmitForm = async (event) => {
     try {
@@ -243,7 +246,7 @@ const Forms = () => {
 
             <label className="col-md-6">
               <p>Telefone</p>
-              <input
+              <IMaskInput
                 className="form-control"
                 type="text"
                 mask="(00) 00000-0000"
@@ -257,7 +260,7 @@ const Forms = () => {
 
             <label className="col-md-6">
               <p>Telefone 2</p>
-              <input
+              <IMaskInput
                 className="form-control"
                 type="text"
                 placeholder="(00) 00000-0000"
@@ -345,7 +348,7 @@ const Forms = () => {
 
             <label className="col-md-6">
               <p>CEP</p>
-              <input
+              <IMaskInput
                 className="form-control"
                 mask="00000-000"
                 type="text"
@@ -851,7 +854,7 @@ const Forms = () => {
               >
                 <option value="">Selecione</option>
                 <option value="sim">Sim</option>
-                <option value="não">Não</option>
+                <option value="nao">Não</option>
               </select>
             </label>
             <label className="col-md-6">
@@ -1238,6 +1241,7 @@ const Forms = () => {
               <textarea
                 className="form-control"
                 as="textarea"
+                type="text"
                 name="ultimasconsideracoes"
                 id="ultimasconsideracoes"
                 cols="100"
