@@ -106,8 +106,8 @@ const Forms = () => {
 
 
   const handleSubmitForm = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault();
       
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/membros",
