@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+
 import { IMaskInput } from "react-imask";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -17,7 +17,7 @@ const Forms = () => {
   };
 
   const [cadMembers, setCadMembers] = useState({
-    matricula: uuidv4(),
+    
     datacriacao: dataMatricula(),
     name: " ",
     mothersname: "",
@@ -90,6 +90,9 @@ const Forms = () => {
     livros: "",
     Ultimasconsideracoes: "",
   });
+
+  
+
   const [exibirfilho, setExibirfilho] = useState(0);
 
   const handleSubmitCamps = (event) => {
@@ -155,12 +158,16 @@ const Forms = () => {
 
   const secaotaiva = (secao) => {
     setExibir(secao);
+    
+
   };
+
+
 
   return (
     <Container className="p-5 w-100 h-100" >
     <form onSubmit={handleSubmitForm}>
-      {exibir === "secao1" && (
+      {exibir === `secao1`  && (
         <Container style={{ height: "100vh" }}>
           <Row>
             <div className="p-3 mb-2 bg-primary-subtle text-center">
@@ -226,14 +233,17 @@ const Forms = () => {
 
             <label className="col-md-6 mb-4">
               <p className="fs-6">Data de nascimento</p>
+              
               <input
-                className="form-control"
-                type="date"
-                name="dateBirth"
-                value={cadMembers.dateBirth || ""}
-                onChange={handleSubmitCamps}
-                placeholder="00/00/0000"
-              />
+          className="form-control"
+          type="text"
+          name="dateBirth"
+          value={cadMembers.dateBirth}
+          onChange={handleSubmitCamps}
+          placeholder="DD/MM/AAAA"
+          pattern="\d{2}/\d{2}/\d{4}"
+          required
+        />
             </label>
 
             <label className="col-md-6 mb-4">
@@ -454,7 +464,7 @@ const Forms = () => {
           </Row>
         </Container>
       )}
-      {exibir === "secao2" && (
+      {exibir === `secao2` && (
         <Container style={{ height: "100vh" }}>
           <Row>
           <div className="p-3 mb-2 bg-primary-subtle text-center">
@@ -651,14 +661,14 @@ const Forms = () => {
               <p className="fs-6">Exerce o cargo a quanto tempo?</p>
               <input
                 className="form-control"
-                type="number"
+                type="date"
                 placeholder="Tempo de Cargo"
                 name="jobChurchTemp"
                 value={cadMembers.jobChurchTemp || ""}
                 onChange={handleSubmitCamps}
               />
             </label>
-            <label className="col-md-6 mb-4">
+            {/* <label className="col-md-6 mb-4">
               <p className="fs-6">Qual congregação você pertence?</p>
               <select
                 className="form-control"
@@ -674,7 +684,7 @@ const Forms = () => {
                 <option value="recanto">Recanto</option>
                 <option value="sede">Sede</option>
               </select>
-            </label>
+            </label> */}
 
             <label className="col-md-6 mb-4">
               <p className="fs-6">Primeiro Casamento?</p>
@@ -759,7 +769,7 @@ const Forms = () => {
           </Row>
         </Container>
       )}
-      {exibir === "secao3" && (
+      {exibir === `secao3` && (
         <Container>
           <Row>
           <div className="p-3 mb-2 bg-primary-subtle text-center">
@@ -933,7 +943,7 @@ const Forms = () => {
           </Row>
         </Container>
       )}
-      {exibir === "secao4" && (
+      {exibir === `secao4` && (
         <Container>
           <Row>
           <div className="p-3 mb-2 bg-primary-subtle text-center">
@@ -1005,23 +1015,32 @@ const Forms = () => {
               </select>
             </label>
             <label className="col-md-6 mb-4">
-              <p className="fs-6">
-                Costuma informar seus pastores sobre ausências na adoração
-                coletiva?
-              </p>
-
-              
-              <textarea
-                className="form-control"
-                as="textarea"
-                name="habito"
-                id="habito"
-                cols="100"
-                rows="5"
-                value={cadMembers.habito || ""}
-                onChange={handleSubmitCamps}
-              ></textarea>
-            </label>
+        <p className="fs-6">
+          Costuma informar seus pastores sobre ausências na adoração coletiva?
+        </p>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="habito"
+              value="sim"
+              checked={cadMembers.habito === 'sim'}
+              onChange={handleSubmitCamps}
+            />
+            Sim
+          </label>
+          <label style={{ marginLeft: '10px' }}>
+            <input
+              type="radio"
+              name="habito"
+              value="não"
+              checked={cadMembers.habito === 'não'}
+              onChange={handleSubmitCamps}
+            />
+            Não
+          </label>
+        </div>
+      </label>
             <label className="col-md-6 mb-4">
               <p className="fs-6">Tem o hábito de participar de cultos de oração?</p>
               <select
@@ -1092,7 +1111,7 @@ const Forms = () => {
           </Row>
         </Container>
       )}
-      {exibir === "secao5" && (
+      {exibir === `secao5` && (
         <Container>
           <Row>
           <div className="w-20">
