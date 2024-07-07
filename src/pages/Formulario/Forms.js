@@ -107,6 +107,7 @@ const Forms = () => {
 
   const handleSubmitForm = async (event) => {
     try {
+      event.preventDefault();
       
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/membros",
@@ -124,14 +125,18 @@ const Forms = () => {
       const json = await response.json();
       console.log(json);
       console.log(response.status);
+      console.log(cadMembers);
+      
     } catch (error) {
       console.log(error);
+      
     }
     
     setCadMembers("");
     alert("Cadastro Realizado com sucesso!")
-    console.log(cadMembers);
-    event.preventDefault();
+    
+   
+    
   };
 
   const buscaCep = (e) => {
@@ -194,7 +199,7 @@ const Forms = () => {
               />
             </label>
           
-            <label for="floatingInput" className="col-md-6 mb-4 ">
+            <label  className="col-md-6 mb-4 ">
               <p className="n1">Nome Completo</p>
               <input
                 className="form-control"
@@ -236,7 +241,7 @@ const Forms = () => {
               
               <input
           className="form-control"
-          type="text"
+           type="date"
           name="dateBirth"
           value={cadMembers.dateBirth}
           onChange={handleSubmitCamps}
@@ -1011,10 +1016,26 @@ const Forms = () => {
               >
                 <option value="">Selecione</option>
                 <option value="sim">Sim</option>
-                <option value="não">Não</option>
+                <option value="nao">Não</option>
               </select>
             </label>
-            <label className="col-md-6 mb-4">
+             <label className="col-md-6 mb-4">
+              <p className="fs-6">
+              Costuma informar seus pastores sobre ausências na adoração coletiva?
+              </p>
+              <select
+                className="form-control"
+                name="habito"
+                id="habito"
+                value={cadMembers.habito || ""}
+                onChange={handleSubmitCamps}
+              >
+                <option value="">Selecione</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+              </select>
+            </label> 
+            {/* <label className="col-md-6 mb-4">
         <p className="fs-6">
           Costuma informar seus pastores sobre ausências na adoração coletiva?
         </p>
@@ -1023,7 +1044,7 @@ const Forms = () => {
             <input
               type="radio"
               name="habito"
-              value="sim"
+              value={cadMembers.habito === 'sim'}
               checked={cadMembers.habito === 'sim'}
               onChange={handleSubmitCamps}
             />
@@ -1033,14 +1054,14 @@ const Forms = () => {
             <input
               type="radio"
               name="habito"
-              value="não"
+              value={cadMembers.habito === 'não'}
               checked={cadMembers.habito === 'não'}
               onChange={handleSubmitCamps}
             />
             Não
           </label>
         </div>
-      </label>
+      </label> */}
             <label className="col-md-6 mb-4">
               <p className="fs-6">Tem o hábito de participar de cultos de oração?</p>
               <select
