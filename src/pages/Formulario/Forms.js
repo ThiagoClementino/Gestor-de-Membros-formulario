@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useRef } from "react";
 
 import { IMaskInput } from "react-imask";
 import Container from "react-bootstrap/Container";
@@ -154,9 +154,14 @@ const Forms = () => {
   };
 
   const [exibir, setExibir] = useState("secao1");
+  const nameInputRef = useRef(null);
 
   const secaotaiva = (secao) => {
+    ;
+  
+    
     setExibir(secao);
+   
   };
 
 
@@ -180,9 +185,10 @@ const Forms = () => {
                   placeholder="Digite o seu nome"
                   type="text"
                   name="name"
+                  ref={nameInputRef}
                   value={cadMembers.name || ""}
                   onChange={handleSubmitCamps}
-                  required
+                  
                 />
               </label>
 
@@ -221,7 +227,7 @@ const Forms = () => {
                   onChange={handleSubmitCamps}
                   placeholder="DD/MM/AAAA"
                   pattern="\d{2}/\d{2}/\d{4}"
-                  required
+                  
                 />
               </label>
 
@@ -249,7 +255,7 @@ const Forms = () => {
                   name="telone"
                   value={cadMembers.telone || ""}
                   onChange={handleSubmitCamps}
-                  required
+                  
                 />
               </label>
 
@@ -275,7 +281,7 @@ const Forms = () => {
                   name="email"
                   value={cadMembers.email || ""}
                   onChange={handleSubmitCamps}
-                  required
+                  
                 />
               </label>
 
@@ -432,6 +438,7 @@ const Forms = () => {
               </label>
               <div className="col-xs2 py-5">
                 <button
+                type="button"
                   className={`btn btn-primary mt-4 nav-Link ${
                     exibir === "secao1" ? "active" : ""
                   }`}
@@ -727,6 +734,7 @@ const Forms = () => {
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
+                  type="button"
                     className={`btn btn-primary mt-4 nav-Link ${
                       exibir === "secao2" ? "active" : ""
                     }`}
@@ -737,6 +745,7 @@ const Forms = () => {
                 </Col>
                 <Col className="col d-flex justify-content-end py-5">
                   <button
+                  type="button"
                     className={` btn btn-primary mt-4 nav-Link ${
                       exibir === "secao2" ? "active" : ""
                     }`}
@@ -902,6 +911,7 @@ const Forms = () => {
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
+                  type="button"
                     className={`btn btn-primary mt-4 nav-Link ${
                       exibir === "secao3" ? "active" : ""
                     }`}
@@ -912,6 +922,7 @@ const Forms = () => {
                 </Col>
                 <Col className="col d-flex justify-content-end py-5">
                   <button
+                  type="button"
                     className={`btn btn-primary mt-4 nav-Link ${
                       exibir === "secao3" ? "active" : ""
                     }`}
@@ -1092,6 +1103,7 @@ const Forms = () => {
               </label>
               <Col className="col d-flex justify-content-start py-5">
                 <button
+                type="button"
                   className={`btn btn-primary mt-4 nav-Link ${
                     exibir === "secao4" ? "active" : ""
                   }`}
@@ -1102,6 +1114,7 @@ const Forms = () => {
               </Col>
               <Col className="col d-flex justify-content-end py-5">
                 <button
+                type="button"
                   variant="btn btn-primary mt-4"
                   size="lg"
                   className={`btn btn-primary mt-4 nav-Link ${
@@ -1298,6 +1311,7 @@ const Forms = () => {
             <Row>
               <Col className="col bd-highlight py-5">
                 <button
+                type="button"
                   size=""
                   className={`btn btn-primary lg mt-4 nav-Link ${
                     exibir === "secao5" ? "active" : ""
