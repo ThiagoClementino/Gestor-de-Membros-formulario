@@ -1,18 +1,17 @@
 import React from "react";
-import { useState,useRef } from "react";
-
+import { useState } from "react";
 import { IMaskInput } from "react-imask";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+
 import Col from "react-bootstrap/Col";
 
 const Forms = () => {
-
+  const [envio, setEnvio] = useState(false);
 
 
 
   const [cadMembers, setCadMembers] = useState({
-    
     name: " ",
     mothersname: "",
     fathersname: "",
@@ -86,10 +85,8 @@ const Forms = () => {
     cadAtivo: true,
   });
 
- 
-
   const [exibirfilho, setExibirfilho] = useState(0);
-  const [qtdfilho, setQtdFilho] = useState('Nao');
+  const [qtdfilho, setQtdFilho] = useState("Nao");
 
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
@@ -99,13 +96,15 @@ const Forms = () => {
     if (event.target.name === "filhos") {
       setQtdFilho(event.target.value);
     }
-
-    
- 
   };
 
+
+
+/* --- Apis e Submit  ---- */
   const handleSubmitForm = async (event) => {
     event.preventDefault();
+    if (envio) return;
+    setEnvio(true)
     try {
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/membros",
@@ -124,14 +123,21 @@ const Forms = () => {
       console.log(json);
       console.log(response.status);
       console.log(cadMembers);
+      setCadMembers("");
+      alert("Cadastro Realizado com sucesso!");
+      setExibir("secao1");
+
     } catch (error) {
       console.log(error);
     }
 
-    setCadMembers("");
-    alert("Cadastro Realizado com sucesso!");
-    setExibir("secao1");
-  };
+    finally {
+
+      setEnvio(false);
+    }
+
+
+  }
 
   const buscaCep = (e) => {
     const cep = e.target.value;
@@ -153,20 +159,26 @@ const Forms = () => {
     console.log(cadMembers);
   };
 
+
+
+
+
+
+
+
   const [exibir, setExibir] = useState("secao1");
-  const nameInputRef = useRef(null);
+ 
 
   const secaotaiva = (secao) => {
-    ;
-  
-    
-    setExibir(secao);
-   
+   if(`secao1` && !cadMembers.name){
+    alert('Por favor, preencha o nome.');
+   }else {
+     
+      setExibir(secao);
+    }
+
   };
 
-
-
-  
 
   return (
     <Container className="p-5 w-100 h-100">
@@ -176,26 +188,23 @@ const Forms = () => {
             <Row>
               <div className="p-3 mb-2 bg-primary-subtle text-center">
                 <p className="fs-3">Dados Pessoais</p>
-              </div>             
+              </div>
               <label className="col-md-6 mb-4 ">
                 <p className="n1">Nome Completo</p>
                 <input
                   className="form-control"
-                  id="floatingInput"
-                  placeholder="Digite o seu nome"
-                  type="text"
-                  name="name"
-                  ref={nameInputRef}
+                  id="floatingInput" 
+                  placeholder="Digite o seu nome" 
+                  type="text" name="name"
+                  
                   value={cadMembers.name || ""}
                   onChange={handleSubmitCamps}
-                  
                 />
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Nome da Mãe</p>
-                <input
-                  className="form-control"
+                <input className="form-control"
                   type="text"
                   placeholder="Nome da Mãe"
                   name="mothersname"
@@ -227,7 +236,6 @@ const Forms = () => {
                   onChange={handleSubmitCamps}
                   placeholder="DD/MM/AAAA"
                   pattern="\d{2}/\d{2}/\d{4}"
-                  
                 />
               </label>
 
@@ -255,7 +263,6 @@ const Forms = () => {
                   name="telone"
                   value={cadMembers.telone || ""}
                   onChange={handleSubmitCamps}
-                  
                 />
               </label>
 
@@ -281,7 +288,6 @@ const Forms = () => {
                   name="email"
                   value={cadMembers.email || ""}
                   onChange={handleSubmitCamps}
-                  
                 />
               </label>
 
@@ -438,10 +444,9 @@ const Forms = () => {
               </label>
               <div className="col-xs2 py-5">
                 <button
-                type="button"
-                  className={`btn btn-primary mt-4 nav-Link ${
-                    exibir === "secao1" ? "active" : ""
-                  }`}
+                  type="button"
+                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao1" ? "active" : ""
+                    }`}
                   onClick={() => secaotaiva("secao2")}
                 >
                   Avançar
@@ -498,24 +503,24 @@ const Forms = () => {
                   <option value="Nao">Não</option>
                 </select>
               </label>
-              {qtdfilho === 'Sim'  &&(
-              <label className="col-md-6 mb-4">
-                <p className="fs-6">Quantidade de filhos</p>
-                <select
-                  className="form-control"
-                  name="qtdfilhos"
-                  id="qtdfilhos"
-                  value={cadMembers.qtdfilhos || ""}
-                  onChange={handleSubmitCamps}
-                >
-                  <option value="0">Selecione</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="acima de quatro">Acima de quatro</option>
-                </select>
-              </label>
+              {qtdfilho === "Sim" && (
+                <label className="col-md-6 mb-4">
+                  <p className="fs-6">Quantidade de filhos</p>
+                  <select
+                    className="form-control"
+                    name="qtdfilhos"
+                    id="qtdfilhos"
+                    value={cadMembers.qtdfilhos || ""}
+                    onChange={handleSubmitCamps}
+                  >
+                    <option value="0">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="acima de quatro">Acima de quatro</option>
+                  </select>
+                </label>
               )}
               {exibirfilho > 0 && (
                 <Container fluid className=" mt-4 mb-4">
@@ -734,10 +739,9 @@ const Forms = () => {
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
-                  type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${
-                      exibir === "secao2" ? "active" : ""
-                    }`}
+                    type="button"
+                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao2" ? "active" : ""
+                      }`}
                     onClick={() => secaotaiva("secao1")}
                   >
                     Voltar
@@ -745,10 +749,9 @@ const Forms = () => {
                 </Col>
                 <Col className="col d-flex justify-content-end py-5">
                   <button
-                  type="button"
-                    className={` btn btn-primary mt-4 nav-Link ${
-                      exibir === "secao2" ? "active" : ""
-                    }`}
+                    type="button"
+                    className={` btn btn-primary mt-4 nav-Link ${exibir === "secao2" ? "active" : ""
+                      }`}
                     onClick={() => secaotaiva("secao3")}
                   >
                     Avançar
@@ -911,10 +914,9 @@ const Forms = () => {
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
-                  type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${
-                      exibir === "secao3" ? "active" : ""
-                    }`}
+                    type="button"
+                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao3" ? "active" : ""
+                      }`}
                     onClick={() => secaotaiva("secao2")}
                   >
                     Voltar
@@ -922,10 +924,9 @@ const Forms = () => {
                 </Col>
                 <Col className="col d-flex justify-content-end py-5">
                   <button
-                  type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${
-                      exibir === "secao3" ? "active" : ""
-                    }`}
+                    type="button"
+                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao3" ? "active" : ""
+                      }`}
                     onClick={() => secaotaiva("secao4")}
                   >
                     Avançar
@@ -1103,10 +1104,9 @@ const Forms = () => {
               </label>
               <Col className="col d-flex justify-content-start py-5">
                 <button
-                type="button"
-                  className={`btn btn-primary mt-4 nav-Link ${
-                    exibir === "secao4" ? "active" : ""
-                  }`}
+                  type="button"
+                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao4" ? "active" : ""
+                    }`}
                   onClick={() => secaotaiva("secao3")}
                 >
                   Voltar
@@ -1114,12 +1114,11 @@ const Forms = () => {
               </Col>
               <Col className="col d-flex justify-content-end py-5">
                 <button
-                type="button"
+                  type="button"
                   variant="btn btn-primary mt-4"
                   size="lg"
-                  className={`btn btn-primary mt-4 nav-Link ${
-                    exibir === "secao4" ? "active" : ""
-                  }`}
+                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao4" ? "active" : ""
+                    }`}
                   onClick={() => secaotaiva("secao5")}
                 >
                   Avançar
@@ -1311,11 +1310,10 @@ const Forms = () => {
             <Row>
               <Col className="col bd-highlight py-5">
                 <button
-                type="button"
+                  type="button"
                   size=""
-                  className={`btn btn-primary lg mt-4 nav-Link ${
-                    exibir === "secao5" ? "active" : ""
-                  }`}
+                  className={`btn btn-primary lg mt-4 nav-Link ${exibir === "secao5" ? "active" : ""
+                    }`}
                   onClick={() => secaotaiva("secao4")}
                 >
                   Voltar
@@ -1323,11 +1321,12 @@ const Forms = () => {
               </Col>
               <Col className="col d-flex justify-content-end py-5">
                 <button
+                  disabled={envio}
                   className="btn btn-primary mt-4 "
                   data-bs-dismiss="toast"
-                  type="submit"
-                >
-                  Enviar
+
+                >{envio ? 'Enviando...' : 'Enviar'}
+
                 </button>
               </Col>
             </Row>
