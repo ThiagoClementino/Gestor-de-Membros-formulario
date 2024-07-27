@@ -1,27 +1,32 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useRef } from "react";
+import { useForm,  } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import {step1Schema, step2Schema, step3Schema, step4Schema, step5Schema} from './validationSchema'
+import {
+  step1Schema,
+  step2Schema,
+  step3Schema,
+  step4Schema,
+  step5Schema,
+} from "./validationSchema";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Col from "react-bootstrap/Col";
 //Schema de validação para cada seção
 
-
-const schema = ({
+const schema = {
   1: step1Schema,
   2: step2Schema,
   3: step3Schema,
   4: step4Schema,
   5: step5Schema,
-});
+};
 //Schema de validação para cada seção
 
 const Formscopy = () => {
   const [show, setShow] = useState(1); //exibir Seção
-  
+
   const [envio, setEnvio] = useState(false); // Desabilitar submit após o envio
 
   // Configuração HookForm
@@ -29,12 +34,12 @@ const Formscopy = () => {
     register,
     handleSubmit,
     trigger,
-    
+
     setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema[show]),
-    defaultValues:{
+    defaultValues: {
       name: " ",
       mothersname: "",
       fathersname: "",
@@ -105,7 +110,7 @@ const Formscopy = () => {
       leiturabiblica: "",
       livros: "",
       ultimasconsideracoes: "",
-    }
+    },
   });
   // Configuração HookForm
 
@@ -130,16 +135,15 @@ const Formscopy = () => {
   };
   //API cep
 
- 
   const avançar = async () => {
-    const result = await trigger( ); 
-        if (result) {
-      setShow(prevStep => Math.min(prevStep + 1, 5));
+    const result = await trigger();
+    if (result) {
+      setShow((prevStep) => Math.min(prevStep + 1, 5));
     }
   };
-  const voltar =()=>{
-    setShow(prevStep => Math.max(prevStep - 1, 1))
-  }
+  const voltar = () => {
+    setShow((prevStep) => Math.max(prevStep - 1, 1));
+  };
 
   //Correção
 
@@ -205,14 +209,28 @@ const Formscopy = () => {
     const selectedOption = event.target.value;
     setShowField1(selectedOption === "Sim");
     setShowField2(selectedOption === "Não");
+    console.log(selectedOption)
   };
-  const [exibirOption, setExibirOption] = useState("");
 
-  const handleSelectChildren = (event) => {
-    if (event.target.name === "qtdfilhos") {
-      setExibirOption(parseInt(event.target.value));
-    }
+ 
+
+
+
+  const [filho1, setFilho1] = useState(false);
+  const [filho2, setFilho2] = useState(false);
+  const [filho3, setFilho3] = useState(false);
+  const [filho4, setFilho4] = useState(false);
+
+  const handleChildrem = (event) => {
+    const dadoFilhos = event.target.value;
+    setFilho1(dadoFilhos === "1");
+    setFilho2(dadoFilhos === "2");
+    setFilho3(dadoFilhos === "3");
+    setFilho4(dadoFilhos === "4");
+    console.log(dadoFilhos);
   };
+
+ 
 
   return (
     <Container className="p-5 w-100 h-100">
@@ -452,12 +470,11 @@ const Formscopy = () => {
                 <p>{errors.timeinresidence?.message}</p>
               </label>
               <div className="col-xs2 py-5">
-              
-              <button
-                type="button"
-                className="btn btn-primary mt-4"
-                onClick={avançar}
-              >
+                <button
+                  type="button"
+                  className="btn btn-primary mt-4"
+                  onClick={avançar}
+                >
                   Avançar
                 </button>
               </div>
@@ -508,29 +525,31 @@ const Formscopy = () => {
                 <p>{errors.filhos?.message}</p>
               </label>
               {showField1 && (
-                <label className="col-md-6 mb-4">
-                  <p className="fs-6">Quantidade de filhos</p>
-                  <select
+                <Container className="mt-4 mb-4">
+                  <label htmlFor="">
+                    <p>Quantidade filhos</p>
+                    <select
                     className="form-control"
-                    onChange={handleSelectChildren}
                     {...register("qtdfilhos")}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="acima de quatro">Acima de quatro</option>
-                  </select>
-                  <p>{errors.qtdfilhos?.message}</p>
-                </label>
+                      onChange={handleChildrem}
+                    >
+                      <option value="">Selecione</option>
+                      <option value="1">1 Filho</option>
+                      <option value="2">2 Filhos</option>
+                      <option value="3">3 Filhos</option>
+                      <option value="4">4 Filhos</option>
+                      <option value="5">Acima de 4 filhos</option>
+                      
+                    </select>
+                      <p>{errors.qtdfilhos?.message}</p>
+                  </label>
+                </Container>
               )}
-
-              <Container fluid className="mt-4 mb-4">
-                <h5>Dados dos filhos</h5>
-
-                {exibirOption >= 1 && (
-                  <Row>
+              {(filho1 || filho2 || filho3 || filho4) &&(
+                <Container fluid className="mt-4 mb-4">
+                  <h5>Dados dos filhos</h5>
+                  {(filho1 || filho2 || filho3 || filho4) &&(
+                  <Row  >
                     <h6>Dados do primeiro Filho</h6>
                     <Col xs={9}>
                       <input
@@ -550,9 +569,9 @@ const Formscopy = () => {
                       <p>{errors.idadefilhoum?.message}</p>
                     </Col>
                   </Row>
-                )}
-
-                {exibirOption >= 2 && (
+                  )}
+                  {(filho2 || filho3 || filho4) &&(
+                
                   <Row>
                     <h6>Dados do segundo Filho</h6>
                     <Col xs={9}>
@@ -573,9 +592,8 @@ const Formscopy = () => {
                       <p>{errors.idadefilhodois?.message}</p>
                     </Col>
                   </Row>
-                )}
-
-                {exibirOption >= 3 && (
+                  )}
+                  {(filho3 || filho4) &&(
                   <Row>
                     <h6>Dados do terceiro Filho</h6>
                     <Col xs={9}>
@@ -597,9 +615,8 @@ const Formscopy = () => {
                       <p>{errors.idadefilhotres?.message}</p>
                     </Col>
                   </Row>
-                )}
-
-                {exibirOption >= 4 && (
+                  )}
+                  {filho4 &&(
                   <Row>
                     <h6>Dados do quarto Filho</h6>
                     <Col xs={9}>
@@ -621,9 +638,10 @@ const Formscopy = () => {
                       <p>{errors.idadefilhoquatro?.message}</p>
                     </Col>
                   </Row>
+                  )}
+                </Container>
                 )}
-              </Container>
-
+              
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Qual cargo exerce no ministério</p>
                 <input className="form-control" {...register("jobChurch")} />
@@ -639,23 +657,6 @@ const Formscopy = () => {
                 />
                 <p>{errors.jobChurchTemp?.message}</p>
               </label>
-              {/* <label className="col-md-6 mb-4">
-              <p className="fs-6">Qual congregação você pertence?</p>
-              <select
-                className="form-control"
-                name="congregacao"
-                id="congregacao"
-                value={cadMembers.congregacao || ""}
-                onChange={handleSubmitCamps}
-              >
-                <option value="">Selecione</option>
-                <option value="105">105</option>
-                <option value="110">110</option>
-                <option value="qnq">Qnq</option>
-                <option value="recanto">Recanto</option>
-                <option value="sede">Sede</option>
-              </select>
-            </label> */}
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Primeiro Casamento?</p>
@@ -1165,6 +1166,7 @@ const Formscopy = () => {
                   className="btn btn-primary mt-4 "
                   data-bs-dismiss="toast"
                   type="submit"
+                  onClick={onSubmit}
                 >
                   {envio ? "Enviando..." : "Enviar"}
                 </button>

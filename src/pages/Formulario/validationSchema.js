@@ -43,7 +43,8 @@ export const step2Schema = yup.object().shape({
   estadocivil: yup.string().required('Campo Obrigatório'),
   conjuge: yup.string().required('Campo Obrigatório'),
   filhos: yup.string().required('Campo Obrigatório'),
-  qtdfilhos: yup.number().positive().integer().required('Campo Obrigatório'),
+  qtdfilhos: yup.string().required('Campo Obrigatório'),
+
   nomefilhoum: yup.string().required('Campo Obrigatório'),
   idadefilhoum: yup.number().required('Campo Obrigatório').positive().integer(),
   nomefilhodois: yup.string().required('Campo Obrigatório'),
