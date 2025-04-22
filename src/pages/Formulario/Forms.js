@@ -1,110 +1,150 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { IMaskInput } from "react-imask";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-
 import Col from "react-bootstrap/Col";
+
+// Importe o validationSchema existente
+import validationSchema from "./validationSchema";
 
 const Forms = () => {
   const [envio, setEnvio] = useState(false);
-
-
-
-  const [cadMembers, setCadMembers] = useState({
-    name: " ",
-    mothersname: "",
-    fathersname: "",
-    dateBirth: "",
-    sex: "",
-    telone: "",
-    teltwo: "",
-    email: "",
-    national: "",
-    natural: "",
-    profession: "",
-    companywork: "",
-    education: "",
-    cep: "",
-    address: "",
-    number: "",
-    complement: "",
-    district: "",
-    city: "",
-    state: "",
-    timeinresidence: "",
-    estadocivil: "",
-    conjuge: "",
-    filhos: "",
-    qtdfilhos: "",
-    nomefilhoum: "",
-    idadefilhoum: "",
-    nomefilhodois: "",
-    idadefilhodois: "",
-    nomefilhotres: "",
-    idadefilhotres: "",
-    nomefilhoquatro: "",
-    idadefilhoquatro: "",
-    jobChurch: "",
-    jobChurchTemp: "",
-    congregacao: "",
-    optionprimeirocasamento: "",
-    casamentocristao: "",
-    parceironaigreja: "",
-    justificativa: "",
-    databatismo: "",
-    dataconversao: "",
-    lastchurch: "",
-    motivosaida: "",
-    igrejasquefoimembro: "",
-    dizimista: "",
-    ofertante: "",
-    cargoanterior: "",
-    separadoanterior: "",
-    posicaoanterior: "",
-    atividadeanterior: "",
-    problema: "",
-    exortacao: "",
-    discipulo: "",
-    cultosdeoracao: "",
-    participacaocultos: "",
-    habito: "",
-    aconselhamentopastoral: "",
-    desenvolvimento: " ",
-    conviccaodiscipulo: "",
-    definicaoevangelho: "",
-    frutosespirito: "",
-    desenvolvimentodafe: "",
-    pecado: "",
-    conviccaoteologica: "",
-    evangelizar: "",
-    jejuar: "",
-    leiturabiblica: "",
-    livros: "",
-    ultimasconsideracoes: "",
-    cadAtivo: true,
+  const [exibir, setExibir] = useState("secao1");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    watch,
+    trigger // Importe a função trigger
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: "",
+      mothersname: "",
+      fathersname: "",
+      dateBirth: "",
+      sex: "",
+      telone: "",
+      email: "",
+      national: "",
+      natural: "",
+      profession: "",
+      companywork: "",
+      education: "",
+      cep: "",
+      address: "",
+      number: "",
+      complement: "",
+      district: "",
+      city: "",
+      state: "",
+      timeinresidence: "",
+      estadocivil: "",
+      conjuge: "",
+      filhos: "",
+      qtdfilhos: "0",
+      nomefilhoum: "",
+      idadefilhoum: "",
+      nomefilhodois: "",
+      idadefilhodois: "",
+      nomefilhotres: "",
+      idadefilhotres: "",
+      nomefilhoquatro: "",
+      idadefilhoquatro: "",
+      jobChurch: "",
+      jobChurchTemp: "",
+      optionprimeirocasamento: "",
+      casamentocristao: "",
+      parceironaigreja: "",
+      justificativa: "",
+      dataconversao: "",
+      databatismo: "",
+      lastchurch: "",
+      motivosaida: "",
+      igrejasquefoimembro: "",
+      dizimista: "",
+      ofertante: "",
+      cargoanterior: "",
+      separadoanterior: "",
+      posicaoanterior: "",
+      atividadeanterior: "",
+      problema: "",
+      exortacao: "",
+      discipulo: "",
+      cultosdeoracao: "",
+      participacaocultos: "",
+      habito: "",
+      aconselhamentopastoral: "",
+      desenvolvimento: "",
+      conviccaodiscipulo: "",
+      definicaoevangelho: "",
+      frutosespirito: "",
+      desenvolvimentodafe: "",
+      pecado: "",
+      conviccaoteologica: "",
+      evangelizar: "",
+      jejuar: "",
+      leiturabiblica: "",
+      livros: "",
+      ultimasconsideracoes: "",
+    },
   });
 
-  const [exibirfilho, setExibirfilho] = useState(0);
-  const [qtdfilho, setQtdFilho] = useState("Nao");
+  const watchFilhos = watch("filhos");
+  const watchQtdFilhos = watch("qtdfilhos");
+  const watchParceiroIgreja = watch("parceironaigreja");
+  const watchCargoAnterior = watch("cargoanterior");
+  const watchSeparadoAnterior = watch("separadoanterior");
 
-  const handleSubmitCamps = (event) => {
-    setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
-    if (event.target.name === "qtdfilhos") {
-      setExibirfilho(parseInt(event.target.value));
+  const handleSubmitSecao = (secao) => async () => {
+    let camposDaSecao = [];
+
+    if (secao === "secao1") {
+      camposDaSecao = [
+        'name', 'mothersname', 'fathersname', 'dateBirth', 'sex', 'telone', 'email',
+        'national', 'natural', 'profession', 'companywork', 'education', 'cep',
+        'address', 'number', 'complement', 'district', 'city', 'state', 'timeinresidence'
+      ];
+    } else if (secao === "secao2") {
+      camposDaSecao = [
+        'estadocivil', 'conjuge', 'filhos', 'qtdfilhos', 'nomefilhoum', 'idadefilhoum',
+        'nomefilhodois', 'idadefilhodois', 'nomefilhotres', 'idadefilhotres',
+        'nomefilhoquatro', 'idadefilhoquatro', 'jobChurch', 'jobChurchTemp',
+        'optionprimeirocasamento', 'casamentocristao', 'parceironaigreja', 'justificativa'
+      ];
+    } else if (secao === "secao3") {
+      camposDaSecao = [
+        'dataconversao', 'databatismo', 'lastchurch', 'motivosaida',
+        'igrejasquefoimembro', 'dizimista', 'ofertante', 'cargoanterior',
+        'separadoanterior', 'posicaoanterior', 'atividadeanterior'
+      ];
+    } else if (secao === "secao4") {
+      camposDaSecao = [
+        'problema', 'exortacao', 'discipulo', 'cultosdeoracao',
+        'participacaocultos', 'habito', 'aconselhamentopastoral', 'desenvolvimento'
+      ];
+    } else if (secao === "secao5") {
+      camposDaSecao = [
+        'conviccaodiscipulo', 'definicaoevangelho', 'frutosespirito',
+        'desenvolvimentodafe', 'pecado', 'conviccaoteologica', 'evangelizar',
+        'jejuar', 'leiturabiblica', 'livros', 'ultimasconsideracoes'
+      ];
     }
-    if (event.target.name === "filhos") {
-      setQtdFilho(event.target.value);
+
+    const isValid = await trigger(camposDaSecao);
+    if (isValid) {
+      setExibir(secao);
+    } else {
+      alert("Por favor, preencha todos os campos obrigatórios desta seção.");
     }
   };
 
-
-
-/* --- Apis e Submit  ---- */
-  const handleSubmitForm = async (event) => {
-    event.preventDefault();
+  const handleSubmitForm = async (values) => {
     if (envio) return;
-    setEnvio(true)
+    setEnvio(true);
     try {
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/membros",
@@ -114,7 +154,7 @@ const Forms = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify(cadMembers),
+          body: JSON.stringify(values),
           mode: "cors",
         }
       );
@@ -122,69 +162,40 @@ const Forms = () => {
       const json = await response.json();
       console.log(json);
       console.log(response.status);
-      console.log(cadMembers);
-      setCadMembers("");
+      console.log(values);
       alert("Cadastro Realizado com sucesso!");
       setExibir("secao1");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setEnvio(false);
+    }
+  };
 
+  const buscaCep = async (e) => {
+    const cep = e.target.value.replace("-", "");
+    if (cep.length !== 8) {
+      return;
+    }
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = await response.json();
+      if (!data.erro) {
+        setValue("address", data.logradouro || "");
+        setValue("district", data.bairro || "");
+        setValue("city", data.localidade || "");
+        setValue("state", data.uf || "");
+      }
     } catch (error) {
       console.log(error);
     }
-
-    finally {
-
-      setEnvio(false);
-    }
-
-
-  }
-
-  const buscaCep = (e) => {
-    const cep = e.target.value;
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTimeout((async) => {
-          setCadMembers({
-            ...cadMembers,
-            address: data.logradouro,
-            district: data.bairro,
-            city: data.localidade,
-            state: data.uf,
-          });
-        }, 1000);
-      })
-      .catch((error) => console.log(error));
-
-    console.log(cadMembers);
   };
-
-
-
-
-
-
-
-
-  const [exibir, setExibir] = useState("secao1");
- 
-
-  const secaotaiva = (secao) => {
-   if(`secao1` && !cadMembers.name){
-    alert('Por favor, preencha o nome.');
-   }else {
-     
-      setExibir(secao);
-    }
-
-  };
-
 
   return (
     <Container className="p-5 w-100 h-100">
-      <form onSubmit={handleSubmitForm}>
+      <form onSubmit={handleSubmit(handleSubmitForm)}>
         {exibir === `secao1` && (
-          <Container style={{ height: "100vh" }}>
+          <Container style={{ height: "100%" }}>
             <Row>
               <div className="p-3 mb-2 bg-primary-subtle text-center">
                 <p className="fs-3">Dados Pessoais</p>
@@ -192,199 +203,264 @@ const Forms = () => {
               <label className="col-md-6 mb-4 ">
                 <p className="n1">Nome Completo</p>
                 <input
-                  className="form-control"
-                  id="floatingInput" 
-                  placeholder="Digite o seu nome" 
-                  type="text" name="name"
-                  
-                  value={cadMembers.name || ""}
-                  onChange={handleSubmitCamps}
+                  className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                  id="name"
+                  placeholder="Digite o seu nome"
+                  type="text"
+                  {...register("name")}
                 />
+                {errors.name && (
+                  <div className="invalid-feedback">{errors.name.message}</div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Nome da Mãe</p>
-                <input className="form-control"
+                <input
+                  className={`form-control ${errors.mothersname ? "is-invalid" : ""}`}
                   type="text"
                   placeholder="Nome da Mãe"
-                  name="mothersname"
-                  value={cadMembers.mothersname || ""}
-                  onChange={handleSubmitCamps}
+                  id="mothersname"
+                  {...register("mothersname")}
                 />
+                {errors.mothersname && (
+                  <div className="invalid-feedback">
+                    {errors.mothersname.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Nome do Pai</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.fathersname ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder="Nome do Pai"
-                  name="fathersname"
-                  value={cadMembers.fathersname || ""}
-                  onChange={handleSubmitCamps}
+                  id="fathersname"
+                  {...register("fathersname")}
                 />
+                {errors.fathersname && (
+                  <div className="invalid-feedback">
+                    {errors.fathersname.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Data de nascimento</p>
-
                 <IMaskInput
-                  className="form-control"
+                  {...register("dateBirth")}
+                  className={`form-control ${
+                    errors.dateBirth ? "is-invalid" : ""
+                  }`}
                   type="text"
-                  name="dateBirth"
-                  mask="00/00/0000"
-                  value={cadMembers.dateBirth}
-                  onChange={handleSubmitCamps}
                   placeholder="DD/MM/AAAA"
-                  pattern="\d{2}/\d{2}/\d{4}"
+                  mask="00/00/0000"
                 />
+                {errors.dateBirth && (
+                  <div className="invalid-feedback">
+                    {errors.dateBirth.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Sexo</p>
                 <select
-                  className="form-control"
-                  name="sex"
-                  value={cadMembers.sex || ""}
-                  onChange={handleSubmitCamps}
+                  className={`form-control ${errors.sex ? "is-invalid" : ""}`}
+                  id="sex"
+                  {...register("sex")}
                 >
                   <option value="">Escolha</option>
                   <option value="Masculino">Masculino</option>
                   <option value="Feminino">Feminino</option>
                 </select>
+                {errors.sex && (
+                  <div className="invalid-feedback">{errors.sex.message}</div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
-                <p className="fs-6">Telefone</p>
+                <p className="fs-6">Telefone 1</p>
                 <IMaskInput
-                  className="form-control"
+                  {...register("telone")}
+                  className={`form-control ${
+                    errors.telone ? "is-invalid" : ""
+                  }`}
                   type="text"
                   mask="(00) 00000-0000"
                   placeholder="(00) 00000-0000"
-                  name="telone"
-                  value={cadMembers.telone || ""}
-                  onChange={handleSubmitCamps}
                 />
+                {errors.telone && (
+                  <div className="invalid-feedback">
+                    {errors.telone.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Telefone 2</p>
                 <IMaskInput
+                  {...register("teltwo")}
                   className="form-control"
                   type="text"
-                  placeholder="(00) 00000-0000"
                   mask="(00) 00000-0000"
-                  name="teltwo"
-                  value={cadMembers.teltwo || ""}
-                  onChange={handleSubmitCamps}
+                  placeholder="(00) 00000-0000"
                 />
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">E-mail</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
                   type="email"
                   placeholder="email@email.com"
-                  name="email"
-                  value={cadMembers.email || ""}
-                  onChange={handleSubmitCamps}
+                  id="email"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email.message}</div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Nacionalidade</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.national ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder="Nacionalidade"
-                  name="national"
-                  value={cadMembers.national || ""}
-                  onChange={handleSubmitCamps}
+                  id="national"
+                  {...register("national")}
                 />
+                {errors.national && (
+                  <div className="invalid-feedback">
+                    {errors.national.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Naturalidade</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.natural ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder="Naturalidade"
-                  name="natural"
-                  value={cadMembers.natural || ""}
-                  onChange={handleSubmitCamps}
+                  id="natural"
+                  {...register("natural")}
                 />
+                {errors.natural && (
+                  <div className="invalid-feedback">
+                    {errors.natural.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Profissão</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.profession ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder=""
-                  name="profession"
-                  value={cadMembers.profession || ""}
-                  onChange={handleSubmitCamps}
+                  id="profession"
+                  {...register("profession")}
                 />
+                {errors.profession && (
+                  <div className="invalid-feedback">
+                    {errors.profession.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Empresa que trabalha </p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.companywork ? "is-invalid" : ""
+                  }`}
                   type="text"
-                  name="companywork"
-                  value={cadMembers.companywork || ""}
-                  onChange={handleSubmitCamps}
+                  id="companywork"
+                  {...register("companywork")}
                 />
+                {errors.companywork && (
+                  <div className="invalid-feedback">
+                    {errors.companywork.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Grau de escolaridade</p>
                 <select
-                  className="form-control"
+                  className={`form-control ${
+                    errors.education ? "is-invalid" : ""
+                  }`}
                   aria-label="Default select example"
-                  name="education"
-                  value={cadMembers.education || ""}
-                  onChange={handleSubmitCamps}
+                  id="education"
+                  {...register("education")}
                 >
                   {" "}
-                  <option>Escolha</option>
+                  <option value="">Escolha</option>
                   <option value="Ensino Fundamental">Ensino Fundamental</option>
                   <option value="Ensino Medio">Ensino Médio</option>
                   <option value="Ensino Superior">Ensino Superior</option>
                 </select>
+                {errors.education && (
+                  <div className="invalid-feedback">
+                    {errors.education.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">CEP</p>
                 <IMaskInput
-                  className="form-control"
+                  {...register("cep")}
+                  className={`form-control ${errors.cep ? "is-invalid" : ""}`}
                   mask="00000-000"
                   type="text"
                   placeholder="CEP"
-                  name="cep"
-                  value={cadMembers.cep || ""}
-                  onChange={handleSubmitCamps}
                   onBlur={buscaCep}
                 />
+                {errors.cep && (
+                  <div className="invalid-feedback">{errors.cep.message}</div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Endereço</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.address ? "is-invalid" : ""
+                  }`}
                   type="text"
-                  name="address"
-                  value={cadMembers.address || ""}
-                  onChange={handleSubmitCamps}
+                  id="address"
+                  {...register("address")}
                 />
+                {errors.address && (
+                  <div className="invalid-feedback">
+                    {errors.address.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Número</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${
+                    errors.number ? "is-invalid" : ""
+                  }`}
                   type="text"
-                  name="number"
-                  value={cadMembers.number || ""}
-                  onChange={handleSubmitCamps}
+                  id="number"
+                  {...register("number")}
                 />
+                {errors.number && (
+                  <div className="invalid-feedback">
+                    {errors.number.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
@@ -392,44 +468,52 @@ const Forms = () => {
                 <input
                   className="form-control"
                   type="text"
-                  name="complement"
-                  value={cadMembers.complement || ""}
-                  onChange={handleSubmitCamps}
+                  id="complement"
+                  {...register("complement")}
                 />
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Bairro</p>
                 <input
-                  className="form-control"
+                  className={`errors.district ? "is-invalid" : ""
+                }`}
                   type="text"
                   placeholder="district"
-                  name="district"
-                  value={cadMembers.district || ""}
-                  onChange={handleSubmitCamps}
+                  id="district"
+                  {...register("district")}
                 />
+                {errors.district && (
+                  <div className="invalid-feedback">
+                    {errors.district.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Cidade</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${errors.city ? "is-invalid" : ""}`}
                   type="text"
-                  name="city"
-                  value={cadMembers.city || ""}
-                  onChange={handleSubmitCamps}
+                  id="city"
+                  {...register("city")}
                 />
+                {errors.city && (
+                  <div className="invalid-feedback">{errors.city.message}</div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Estado</p>
                 <input
-                  className="form-control"
+                  className={`form-control ${errors.state ? "is-invalid" : ""}`}
                   type="text"
                   placeholder="Estado"
-                  name="state"
-                  value={cadMembers.state || ""}
-                  onChange={handleSubmitCamps}
+                  id="state"
+                  {...register("state")}
                 />
+                {errors.state && (
+                  <div className="invalid-feedback">{errors.state.message}</div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
@@ -437,17 +521,17 @@ const Forms = () => {
                 <input
                   className="form-control"
                   type="text"
-                  name="timeinresidence"
-                  value={cadMembers.timeinresidence || ""}
-                  onChange={handleSubmitCamps}
+                  id="timeinresidence"
+                  {...register("timeinresidence")}
                 />
               </label>
               <div className="col-xs2 py-5">
                 <button
                   type="button"
-                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao1" ? "active" : ""
-                    }`}
-                  onClick={() => secaotaiva("secao2")}
+                  className={`btn btn-primary mt-4 nav-Link ${
+                    exibir === "secao1" ? "active" : ""
+                  }`}
+                  onClick={() => handleSubmitSecao("secao2")}
                 >
                   Avançar
                 </button>
@@ -456,7 +540,7 @@ const Forms = () => {
           </Container>
         )}
         {exibir === `secao2` && (
-          <Container style={{ height: "100vh" }}>
+          <Container style={{ height: "100%" }}>
             <Row>
               <div className="p-3 mb-2 bg-primary-subtle text-center">
                 <p className="fs-3">Relacionamento</p>
@@ -465,53 +549,58 @@ const Forms = () => {
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Estado Civil</p>
                 <select
-                  className="form-control"
-                  name="estadocivil"
+                  className={`form-control ${
+                    errors.estadocivil ? "is-invalid" : ""
+                  }`}
                   id="estadocivil"
-                  value={cadMembers.estadocivil || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("estadocivil")}
                 >
                   <option value="">Selecione</option>
                   <option value="Solteiro">Solteiro</option>
                   <option value="Casado">Casado</option>
                   <option value="Divorciado">Divocriado</option>
                 </select>
+                {errors.estadocivil && (
+                  <div className="invalid-feedback">
+                    {errors.estadocivil.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Nome do Conjugê</p>
                 <input
                   className="form-control"
                   type="text"
-                  name="conjuge"
                   id="conjuge"
                   placeholder="Digite o nome do conjugê"
-                  value={cadMembers.conjuge || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("conjuge")}
                 />
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Possui Filhos</p>
                 <select
-                  className="form-control"
-                  name="filhos"
+                  className={`form-control ${errors.filhos ? "is-invalid" : ""}`}
                   id="filhos"
-                  value={cadMembers.filhos || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("filhos")}
                 >
                   <option value="">Selecione</option>
                   <option value="Sim">Sim</option>
                   <option value="Nao">Não</option>
                 </select>
+                {errors.filhos && (
+                  <div className="invalid-feedback">{errors.filhos.message}</div>
+                )}
               </label>
-              {qtdfilho === "Sim" && (
+
+              {watchFilhos === "Sim" && (
                 <label className="col-md-6 mb-4">
                   <p className="fs-6">Quantidade de filhos</p>
                   <select
-                    className="form-control"
-                    name="qtdfilhos"
+                    className={`form-control ${
+                      errors.qtdfilhos ? "is-invalid" : ""
+                    }`}
                     id="qtdfilhos"
-                    value={cadMembers.qtdfilhos || ""}
-                    onChange={handleSubmitCamps}
+                    {...register("qtdfilhos")}
                   >
                     <option value="0">Selecione</option>
                     <option value="1">1</option>
@@ -520,123 +609,112 @@ const Forms = () => {
                     <option value="4">4</option>
                     <option value="acima de quatro">Acima de quatro</option>
                   </select>
+                  {errors.qtdfilhos && (
+                    <div className="invalid-feedback">
+                      {errors.qtdfilhos.message}
+                    </div>
+                  )}
                 </label>
               )}
-              {exibirfilho > 0 && (
-                <Container fluid className=" mt-4 mb-4">
-                  <h5>Dados do filhos</h5>
 
-                  {exibirfilho > 0 && exibirfilho <= 4 && (
-                    <Row>
-                      <h6>Dados do primeiro Fiho</h6>
-                      <Col xs={9}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="nomefilhoum"
-                          id="nomefilhoum"
-                          placeholder="Digite o nome dos filhos"
-                          value={cadMembers.nomefilhoum || ""}
-                          onChange={handleSubmitCamps}
-                        />
-                      </Col>
-                      <Col xs={3}>
-                        <input
-                          className="form-control col"
-                          type="number"
-                          name="idadefilhoum"
-                          id="idadefilhoum"
-                          placeholder="idade"
-                          value={cadMembers.idadefilhoum || ""}
-                          onChange={handleSubmitCamps}
-                        />
-                      </Col>
-                    </Row>
-                  )}
-
-                  {exibirfilho > 1 && exibirfilho <= 4 && (
-                    <Row>
-                      <h6>Dados do segundo Fiho</h6>
-                      <Col xs={9}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="nomefilhodois"
-                          id="nomefilhodois"
-                          placeholder="Digite o nome dos filhos"
-                          value={cadMembers.nomefilhodois || ""}
-                          onChange={handleSubmitCamps}
-                        />
-                      </Col>
-                      <Col xs={3}>
-                        <input
-                          className="form-control"
-                          type="number"
-                          name="idadefilhodois"
-                          id="idadefilhodois"
-                          value={cadMembers.idadefilhodois || ""}
-                          onChange={handleSubmitCamps}
-                          placeholder="idade"
-                        />
-                      </Col>
-                    </Row>
-                  )}
-                  {exibirfilho > 2 && exibirfilho <= 4 && (
-                    <Row>
-                      <h6>Dados do terceiro Fiho</h6>
-                      <Col xs={9}>
-                        <input
-                          className="form-control col"
-                          type="text"
-                          name="nomefilhotres"
-                          id="nomefilhotres"
-                          placeholder="Digite o nome dos filhos"
-                          value={cadMembers.nomefilhotres || ""}
-                          onChange={handleSubmitCamps}
-                        />
-                      </Col>
-                      <Col xs={3}>
-                        <input
-                          className="form-control col"
-                          type="number"
-                          name="idadefilhotres"
-                          id="idadefilhotres"
-                          value={cadMembers.idadefilhotres || ""}
-                          onChange={handleSubmitCamps}
-                          placeholder="idade"
-                        />
-                      </Col>
-                    </Row>
-                  )}
-                  {exibirfilho > 3 && (
-                    <Row>
-                      <h6>Dados do quarto Fiho</h6>
-                      <Col xs={9}>
-                        <input
-                          className="form-control col"
-                          type="text"
-                          name="nomefilhoquatro"
-                          id="nomefilhoquatro"
-                          placeholder="Digite o nome dos filhos"
-                          value={cadMembers.nomefilhoquatro || ""}
-                          onChange={handleSubmitCamps}
-                        />
-                      </Col>
-                      <Col xs={3}>
-                        <input
-                          className="form-control col"
-                          type="number"
-                          name="idadefilhoquatro"
-                          id="idadefilhoquatro"
-                          value={cadMembers.idadefilhoquatro || ""}
-                          onChange={handleSubmitCamps}
-                          placeholder="idade"
-                        />
-                      </Col>
-                    </Row>
-                  )}
-                </Container>
-              )}
+              {parseInt(watchQtdFilhos, 10) > 0 &&
+                parseInt(watchQtdFilhos, 10) <= 4 && (
+                  <Container fluid className=" mt-4 mb-4">
+                    <h5>Dados do filhos</h5>
+                    {parseInt(watchQtdFilhos, 10) >= 1 && (
+                      <Row>
+                        <h6>Dados do primeiro Fiho</h6>
+                        <Col xs={9}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            id="nomefilhoum"
+                            placeholder="Digite o nome do filho"
+                            {...register("nomefilhoum")}
+                          />
+                        </Col>
+                        <Col xs={3}>
+                          <input
+                            className="form-control col"
+                            type="number"
+                            id="idadefilhoum"
+                            placeholder="idade"
+                            {...register("idadefilhoum")}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                    {parseInt(watchQtdFilhos, 10) >= 2 && (
+                      <Row className="mt-2">
+                        <h6>Dados do segundo Fiho</h6>
+                        <Col xs={9}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            id="nomefilhodois"
+                            placeholder="Digite o nome do filho"
+                            {...register("nomefilhodois")}
+                          />
+                        </Col>
+                        <Col xs={3}>
+                          <input
+                            className="form-control"
+                            type="number"
+                            id="idadefilhodois"
+                            placeholder="idade"
+                            {...register("idadefilhodois")}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                    {parseInt(watchQtdFilhos, 10) >= 3 && (
+                      <Row className="mt-2">
+                        <h6>Dados do terceiro Fiho</h6>
+                        <Col xs={9}>
+                          <input
+                            className="form-control col"
+                            type="text"
+                            id="nomefilhotres"
+                            placeholder="Digite o nome do filho"
+                            {...register("nomefilhotres")}
+                          />
+                        </Col>
+                        <Col xs={3}>
+                          <input
+                            className="form-control col"
+                            type="number"
+                            id="idadefilhotres"
+                            placeholder="idade"
+                            {...register("idadefilhotres")}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                    {parseInt(watchQtdFilhos, 10) >= 4 && (
+                      <Row className="mt-2">
+                        <h6>Dados do quarto Fiho</h6>
+                        <Col xs={9}>
+                          <input
+                            className="form-control col"
+                            type="text"
+                            id="nomefilhoquatro"
+                            placeholder="Digite o nome do filho"
+                            {...register("nomefilhoquatro")}
+                          />
+                        </Col>
+                        <Col xs={3}>
+                          <input
+                            className="form-control col"
+                            type="number"
+                            id="idadefilhoquatro"
+                            placeholder="idade"
+                            {...register("idadefilhoquatro")}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                  </Container>
+                )}
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Qual cargo exerce no ministério</p>
@@ -644,9 +722,8 @@ const Forms = () => {
                   className="form-control"
                   type="text"
                   placeholder="Cargo"
-                  name="jobChurch"
-                  value={cadMembers.jobChurch || ""}
-                  onChange={handleSubmitCamps}
+                  id="jobChurch"
+                  {...register("jobChurch")}
                 />
               </label>
               <label className="col-md-6 mb-4">
@@ -655,94 +732,106 @@ const Forms = () => {
                   className="form-control"
                   type="date"
                   placeholder="Tempo de Cargo"
-                  name="jobChurchTemp"
-                  value={cadMembers.jobChurchTemp || ""}
-                  onChange={handleSubmitCamps}
+                  id="jobChurchTemp"
+                  {...register("jobChurchTemp")}
                 />
               </label>
               {/* <label className="col-md-6 mb-4">
-              <p className="fs-6">Qual congregação você pertence?</p>
-              <select
-                className="form-control"
-                name="congregacao"
-                id="congregacao"
-                value={cadMembers.congregacao || ""}
-                onChange={handleSubmitCamps}
-              >
-                <option value="">Selecione</option>
-                <option value="105">105</option>
-                <option value="110">110</option>
-                <option value="qnq">Qnq</option>
-                <option value="recanto">Recanto</option>
-                <option value="sede">Sede</option>
-              </select>
-            </label> */}
+                <p className="fs-6">Qual congregação você pertence?</p>
+                <select
+                  className="form-control"
+                  name="congregacao"
+                  id="congregacao"
+                >
+                  <option value="">Selecione</option>
+                  <option value="105">105</option>
+                  <option value="110">110</option>
+                  <option value="qnq">Qnq</option>
+                  <option value="recanto">Recanto</option>
+                  <option value="sede">Sede</option>
+                </select>
+              </label> */}
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Primeiro Casamento?</p>
                 <select
-                  className="form-control"
-                  name="optionprimeirocasamento"
+                  className={`form-control ${
+                    errors.optionprimeirocasamento ? "is-invalid" : ""
+                  }`}
                   id="optionprimeirocasamento"
-                  value={cadMembers.optionprimeirocasamento || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("optionprimeirocasamento")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="nao">Não</option>
                 </select>
+                {errors.optionprimeirocasamento && (
+                  <div className="invalid-feedback">
+                    {errors.optionprimeirocasamento.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Casaram-se em cerimônia cristã?</p>
                 <select
-                  className="form-control"
-                  name="casamentocristao"
+                  className={`form-control ${
+                    errors.casamentocristao ? "is-invalid" : ""
+                  }`}
                   id="casamentocristao"
-                  value={cadMembers.casamentocristao || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("casamentocristao")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="nao">Não</option>
                 </select>
+                {errors.casamentocristao && (
+                  <div className="invalid-feedback">
+                    {errors.casamentocristao.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
                   Nesse momento, seu cônjuge se tornará membro junto com você?
                 </p>
                 <select
-                  className="form-control"
-                  name="parceironaigreja"
+                  className={`form-control ${
+                    errors.parceironaigreja ? "is-invalid" : ""
+                  }`}
                   id="parceironaigreja"
-                  value={cadMembers.parceironaigreja || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("parceironaigreja")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="nao">Não</option>
                 </select>
+                {errors.parceironaigreja && (
+                  <div className="invalid-feedback">
+                    {errors.parceironaigreja.message}
+                  </div>
+                )}
               </label>
-              <label className="col-md">
-                <p className="fs-6">Se não, justificar motivo</p>
-
-                <textarea
-                  className="form-control"
-                  name="justificativa"
-                  id="justificativa"
-                  cols="48"
-                  rows="5"
-                  value={cadMembers.justificativa || ""}
-                  onChange={handleSubmitCamps}
-                ></textarea>
-              </label>
+              {watchParceiroIgreja === "nao" && (
+                <label className="col-md">
+                  <p className="fs-6">Se não, justificar motivo</p>
+                  <textarea
+                    className="form-control"
+                    id="justificativa"
+                    cols="48"
+                    rows="5"
+                    {...register("justificativa")}
+                  />
+                </label>
+              )}
 
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
                     type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao2" ? "active" : ""
-                      }`}
-                    onClick={() => secaotaiva("secao1")}
+                    className={`btn btn-primary mt-4 nav-Link ${
+                      exibir === "secao2" ? "active" : ""
+                    }`}
+                    onClick={() => handleSubmitSecao("secao1")}
                   >
                     Voltar
                   </button>
@@ -750,9 +839,10 @@ const Forms = () => {
                 <Col className="col d-flex justify-content-end py-5">
                   <button
                     type="button"
-                    className={` btn btn-primary mt-4 nav-Link ${exibir === "secao2" ? "active" : ""
-                      }`}
-                    onClick={() => secaotaiva("secao3")}
+                    className={`btn btn-primary mt-4 nav-Link ${
+                      exibir === "secao2" ? "active" : ""
+                    }`}
+                    onClick={() => handleSubmitSecao("secao3")}
                   >
                     Avançar
                   </button>
@@ -770,25 +860,37 @@ const Forms = () => {
 
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Qual a foi a data de conversão</p>
-                <input
-                  className="form-control"
-                  type="date"
-                  name="dataconversao"
-                  id="dataconversao"
-                  value={cadMembers.dataconversao || ""}
-                  onChange={handleSubmitCamps}
+                <IMaskInput
+                  {...register("dataconversao")}
+                  className={`form-control ${
+                    errors.dataconversao ? "is-invalid" : ""
+                  }`}
+                  type="text"
+                  placeholder="DD/MM/AAAA"
+                  mask="00/00/0000"
                 />
+                {errors.dataconversao && (
+                  <div className="invalid-feedback">
+                    {errors.dataconversao.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Qual foi sua data de batismo nas águas</p>
-                <input
-                  className="form-control"
-                  type="date"
-                  name="databatismo"
-                  id="databatismo"
-                  value={cadMembers.databatismo || ""}
-                  onChange={handleSubmitCamps}
+                <IMaskInput
+                  {...register("databatismo")}
+                  className={`form-control ${
+                    errors.databatismo ? "is-invalid" : ""
+                  }`}
+                  type="text"
+                  placeholder="DD/MM/AAAA"
+                  mask="00/00/0000"
                 />
+                {errors.databatismo && (
+                  <div className="invalid-feedback">
+                    {errors.databatismo.message}
+                  </div>
+                )}
               </label>
 
               <label className="col-md-6 mb-4">
@@ -796,10 +898,7 @@ const Forms = () => {
                 <input
                   className="form-control"
                   type="text"
-                  name="lastchurch"
-                  id="lastchurch"
-                  value={cadMembers.lastchurch || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("lastchurch")}
                 />
               </label>
               <label className="col-md-6 mb-4">
@@ -807,10 +906,7 @@ const Forms = () => {
                 <input
                   className="form-control"
                   type="text"
-                  name="motivosaida"
-                  id="motivosaida"
-                  value={cadMembers.motivosaida || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("motivosaida")}
                 />
               </label>
               <label className="col-md-12 mb-4">
@@ -820,104 +916,137 @@ const Forms = () => {
                 </p>
                 <textarea
                   className="form-control"
-                  name="igrejasquefoimembro"
                   id="igrejasquefoimembro"
                   cols="80"
                   rows="2"
-                  value={cadMembers.igrejasquefoimembro || ""}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("igrejasquefoimembro")}
+                />
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Você é dizimista fiel? </p>
                 <select
-                  className="form-control"
-                  name="dizimista"
+                  className={`form-control ${
+                    errors.dizimista ? "is-invalid" : ""
+                  }`}
                   id="dizimista"
-                  value={cadMembers.dizimista || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("dizimista")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.dizimista && (
+                  <div className="invalid-feedback">
+                    {errors.dizimista.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Você é ofertante fiel? </p>
                 <select
-                  className="form-control"
-                  name="ofertante"
+                  className={`form-control ${
+                    errors.ofertante ? "is-invalid" : ""
+                  }`}
                   id="ofertante"
-                  value={cadMembers.ofertante || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("ofertante")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
-                </select>
+                  </select>
+                {errors.ofertante && (
+                  <div className="invalid-feedback">
+                    {errors.ofertante.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
                   Você exerceu algum cargo de liderança nas igrejas que passou?
                 </p>
                 <select
-                  className="form-control"
-                  name="cargoanterior"
+                  className={`form-control ${
+                    errors.cargoanterior ? "is-invalid" : ""
+                  }`}
                   id="cargoanterior"
-                  value={cadMembers.cargoanterior || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("cargoanterior")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="nao">Não</option>
                 </select>
+                {errors.cargoanterior && (
+                  <div className="invalid-feedback">
+                    {errors.cargoanterior.message}
+                  </div>
+                )}
               </label>
+
+              {watchCargoAnterior === "sim" && (
+                <>
+                  <label className="col-md-6 mb-4">
+                    <p className="fs-6">Qual era a sua posição</p>
+                    <input
+                      className="form-control"
+                      type="text"
+                      id="posicaoanterior"
+                      {...register("posicaoanterior")}
+                    />
+                  </label>
+                  <label className="col-md-6 mb-4">
+                    <p className="fs-6">Quais eram as suas atividades?</p>
+                    <input
+                      className="form-control"
+                      type="text"
+                      id="atividadeanterior"
+                      {...register("atividadeanterior")}
+                    />
+                  </label>
+                </>
+              )}
+
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
-                  Você foi separado/consagrado a algum cargo ministerial?{" "}
+                  Você foi separado/consagrado a algum cargo ministerial?
                 </p>
                 <select
-                  className="form-control"
-                  name="separadoanterior"
+                  className={`form-control ${
+                    errors.separadoanterior ? "is-invalid" : ""
+                  }`}
                   id="separadoanterior"
-                  value={cadMembers.separadoanterior || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("separadoanterior")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.separadoanterior && (
+                  <div className="invalid-feedback">
+                    {errors.separadoanterior.message}
+                  </div>
+                )}
               </label>
-              <label className="col-md-6 mb-4">
-                <p className="fs-6">Qual era a sua posição</p>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="posicaoanterior"
-                  id="posicaoanterior"
-                  value={cadMembers.posicaoanterior || ""}
-                  onChange={handleSubmitCamps}
-                />
-              </label>
-              <label className="col-md-6 mb-4">
-                <p className="fs-6">Quais eram as suas atividades?</p>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="atividadeanterior"
-                  id="atividadeanterior"
-                  value={cadMembers.atividadeanterior || ""}
-                  onChange={handleSubmitCamps}
-                />
-              </label>
+
+              {watchSeparadoAnterior === "sim" && (
+                <label className="col-md-6 mb-4">
+                  <p className="fs-6">Qual era a sua posição</p>
+                  <input
+                    className="form-control"
+                    type="text"
+                    id="posicaoanterior"
+                    {...register("posicaoanterior")}
+                  />
+                </label>
+              )}
 
               <Row>
                 <Col className="col bd-highlight py-5">
                   <button
                     type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao3" ? "active" : ""
-                      }`}
-                    onClick={() => secaotaiva("secao2")}
+                    className={`btn btn-primary mt-4 nav-Link ${
+                      exibir === "secao3" ? "active" : ""
+                    }`}
+                    onClick={() => handleSubmitSecao("secao2")}
                   >
                     Voltar
                   </button>
@@ -925,9 +1054,10 @@ const Forms = () => {
                 <Col className="col d-flex justify-content-end py-5">
                   <button
                     type="button"
-                    className={`btn btn-primary mt-4 nav-Link ${exibir === "secao3" ? "active" : ""
-                      }`}
-                    onClick={() => secaotaiva("secao4")}
+                    className={`btn btn-primary mt-4 nav-Link ${
+                      exibir === "secao3" ? "active" : ""
+                    }`}
+                    onClick={() => handleSubmitSecao("secao4")}
                   >
                     Avançar
                   </button>
@@ -948,16 +1078,21 @@ const Forms = () => {
                   Tem algum problema com liderança, hierarquia e pastoreio?
                 </p>
                 <select
-                  className="form-control"
-                  name="problema"
+                  className={`form-control ${
+                    errors.problema ? "is-invalid" : ""
+                  }`}
                   id="problema"
-                  value={cadMembers.problema || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("problema")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.problema && (
+                  <div className="invalid-feedback">
+                    {errors.problema.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -965,16 +1100,21 @@ const Forms = () => {
                   bíblicos?
                 </p>
                 <select
-                  className="form-control"
-                  name="exortacao"
+                  className={`form-control ${
+                    errors.exortacao ? "is-invalid" : ""
+                  }`}
                   id="exortacao"
-                  value={cadMembers.exortacao || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("exortacao")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.exortacao && (
+                  <div className="invalid-feedback">
+                    {errors.exortacao.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -982,32 +1122,42 @@ const Forms = () => {
                   pastoreável/ensinável?
                 </p>
                 <select
-                  className="form-control"
-                  name="discipulo"
+                  className={`form-control ${
+                    errors.discipulo ? "is-invalid" : ""
+                  }`}
                   id="discipulo"
-                  value={cadMembers.discipulo || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("discipulo")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.discipulo && (
+                  <div className="invalid-feedback">
+                    {errors.discipulo.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
                   Tem o hábito de participar de cultos de estudo bíblico e EBDs?
                 </p>
                 <select
-                  className="form-control"
-                  name="participacaocultos"
+                  className={`form-control ${
+                    errors.participacaocultos ? "is-invalid" : ""
+                  }`}
                   id="participacaocultos"
-                  value={cadMembers.participacaocultos || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("participacaocultos")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
-                  <option value="nao">Não</option>
+                  <option value="não">Não</option>
                 </select>
+                {errors.participacaocultos && (
+                  <div className="invalid-feedback">
+                    {errors.participacaocultos.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1015,75 +1165,59 @@ const Forms = () => {
                   coletiva?
                 </p>
                 <select
-                  className="form-control"
-                  name="habito"
+                  className={`form-control ${errors.habito ? "is-invalid" : ""}`}
                   id="habito"
-                  value={cadMembers.habito || ""}
-                  onChange={handleSubmitCamps}
-                >
-                  <option value="">Selecione</option>
-                  <option value="sim">Sim</option>
-                  <option value="nao">Não</option>
-                </select>
-              </label>
-              {/* <label className="col-md-6 mb-4">
-        <p className="fs-6">
-          Costuma informar seus pastores sobre ausências na adoração coletiva?
-        </p>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="habito"
-              value={cadMembers.habito === 'sim'}
-              checked={cadMembers.habito === 'sim'}
-              onChange={handleSubmitCamps}
-            />
-            Sim
-          </label>
-          <label style={{ marginLeft: '10px' }}>
-            <input
-              type="radio"
-              name="habito"
-              value={cadMembers.habito === 'não'}
-              checked={cadMembers.habito === 'não'}
-              onChange={handleSubmitCamps}
-            />
-            Não
-          </label>
-        </div>
-      </label> */}
-              <label className="col-md-6 mb-4">
-                <p className="fs-6">
-                  Tem o hábito de participar de cultos de oração?
-                </p>
-                <select
-                  className="form-control"
-                  name="cultosdeoracao"
-                  id="cultosdeoracao"
-                  value={cadMembers.cultosdeoracao || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("habito")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.habito && (
+                  <div className="invalid-feedback">{errors.habito.message}</div>
+                )}
+              </label>
+              <label className="col-md-6 mb-4">
+                <p className="fs-6">
+                  Tem o hábito de participar de cultos de oração?
+                </p>
+                <select
+                  className={`form-control ${
+                    errors.cultosdeoracao ? "is-invalid" : ""
+                  }`}
+                  id="cultosdeoracao"
+                  {...register("cultosdeoracao")}
+                >
+                  <option value="">Selecione</option>
+                  <option value="sim">Sim</option>
+                  <option value="não">Não</option>
+                </select>
+                {errors.cultosdeoracao && (
+                  <div className="invalid-feedback">
+                    {errors.cultosdeoracao.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
                   Tem o hábito de buscar aconselhamento pastoral?
                 </p>
                 <select
-                  className="form-control"
-                  name="aconselhamentopastoral"
+                  className={`form-control ${
+                    errors.aconselhamentopastoral ? "is-invalid" : ""
+                  }`}
                   id="aconselhamentopastoral"
-                  value={cadMembers.aconselhamentopastoral || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("aconselhamentopastoral")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.aconselhamentopastoral && (
+                  <div className="invalid-feedback">
+                    {errors.aconselhamentopastoral.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1091,23 +1225,29 @@ const Forms = () => {
                   uns aos outros?
                 </p>
                 <select
-                  className="form-control"
-                  name="desenvolvimento"
+                  className={`form-control ${
+                    errors.desenvolvimento ? "is-invalid" : ""
+                  }`}
                   id="desenvolvimento"
-                  value={cadMembers.desenvolvimento || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("desenvolvimento")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.desenvolvimento && (
+                  <div className="invalid-feedback">
+                    {errors.desenvolvimento.message}
+                  </div>
+                )}
               </label>
               <Col className="col d-flex justify-content-start py-5">
                 <button
                   type="button"
-                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao4" ? "active" : ""
-                    }`}
-                  onClick={() => secaotaiva("secao3")}
+                  className={`btn btn-primary mt-4 nav-Link ${
+                    exibir === "secao4" ? "active" : ""
+                  }`}
+                  onClick={() => handleSubmitSecao("secao3")}
                 >
                   Voltar
                 </button>
@@ -1115,11 +1255,10 @@ const Forms = () => {
               <Col className="col d-flex justify-content-end py-5">
                 <button
                   type="button"
-                  variant="btn btn-primary mt-4"
-                  size="lg"
-                  className={`btn btn-primary mt-4 nav-Link ${exibir === "secao4" ? "active" : ""
-                    }`}
-                  onClick={() => secaotaiva("secao5")}
+                  className={`btn btn-primary mt-4 nav-Link ${
+                    exibir === "secao4" ? "active" : ""
+                  }`}
+                  onClick={() => handleSubmitSecao("secao5")}
                 >
                   Avançar
                 </button>
@@ -1131,7 +1270,7 @@ const Forms = () => {
           <Container>
             <Row>
               <div className="w-20">
-                <p className="p-3 mb-2 fs-3 w-10 text-white  bg-primary text-center ">
+                <p className="p-3mb-2 fs-3 w-10 text-white   bg-primary text-center ">
                   Convicções
                 </p>
               </div>
@@ -1143,28 +1282,36 @@ const Forms = () => {
                 </p>
 
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="conviccaodiscipulo"
+                  className={`form-control ${
+                    errors.conviccaodiscipulo ? "is-invalid" : ""
+                  }`}
                   id="conviccaodiscipulo"
                   cols="100"
                   rows="5"
-                  value={cadMembers.conviccaodiscipulo}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("conviccaodiscipulo")}
+                />
+                {errors.conviccaodiscipulo && (
+                  <div className="invalid-feedback">
+                    {errors.conviccaodiscipulo.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Como você define o evangelho?</p>
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="definicaoevangelho"
+                  className={`form-control ${
+                    errors.definicaoevangelho ? "is-invalid" : ""
+                  }`}
                   id="definicaoevangelho"
                   cols="100"
                   rows="5"
-                  value={cadMembers.definicaoevangelho}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("definicaoevangelho")}
+                />
+                {errors.definicaoevangelho && (
+                  <div className="invalid-feedback">
+                    {errors.definicaoevangelho.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1173,15 +1320,19 @@ const Forms = () => {
                 </p>
 
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="frutosespirito"
+                  className={`form-control ${
+                    errors.frutosespirito ? "is-invalid" : ""
+                  }`}
                   id="frutosespirito"
                   cols="100"
                   rows="5"
-                  value={cadMembers.frutosespirito}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("frutosespirito")}
+                />
+                {errors.frutosespirito && (
+                  <div className="invalid-feedback">
+                    {errors.frutosespirito.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1190,15 +1341,19 @@ const Forms = () => {
                 </p>
 
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="desenvolvimentodafe"
+                  className={`form-control ${
+                    errors.desenvolvimentodafe ? "is-invalid" : ""
+                  }`}
                   id="desenvolvimentodafer"
                   cols="100"
                   rows="5"
-                  value={cadMembers.desenvolvimentodafe}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("desenvolvimentodafe")}
+                />
+                {errors.desenvolvimentodafe && (
+                  <div className="invalid-feedback">
+                    {errors.desenvolvimentodafe.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1207,15 +1362,15 @@ const Forms = () => {
                 </p>
 
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="pecado"
+                  className={`form-control ${errors.pecado ? "is-invalid" : ""}`}
                   id="pecado"
                   cols="100"
                   rows="5"
-                  value={cadMembers.pecado}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("pecado")}
+                />
+                {errors.pecado && (
+                  <div className="invalid-feedback">{errors.pecado.message}</div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1223,57 +1378,71 @@ const Forms = () => {
                 </p>
 
                 <textarea
-                  className="form-control"
-                  as="textarea"
-                  name="conviccaoteologica"
+                  className={`form-control ${
+                    errors.conviccaoteologica ? "is-invalid" : ""
+                  }`}
                   id="conviccaoteologica"
                   cols="100"
                   rows="5"
-                  value={cadMembers.conviccaoteologica}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  {...register("conviccaoteologica")}
+                />
+                {errors.conviccaoteologica && (
+                  <div className="invalid-feedback">
+                    {errors.conviccaoteologica.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Você tem o hábito de evangelizar?</p>
                 <select
-                  className="form-control"
-                  name="evangelizar"
+                  className={`form-control ${
+                    errors.evangelizar ? "is-invalid" : ""
+                  }`}
                   id="evangelizar"
-                  value={cadMembers.evangelizar || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("evangelizar")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.evangelizar && (
+                  <div className="invalid-feedback">
+                    {errors.evangelizar.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Você tem o hábito de jejuar?</p>
                 <select
-                  className="form-control"
-                  name="jejuar"
+                  className={`form-control ${errors.jejuar ? "is-invalid" : ""}`}
                   id="jejuar"
-                  value={cadMembers.jejuar || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("jejuar")}
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.jejuar && (
+                  <div className="invalid-feedback">{errors.jejuar.message}</div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">Você já leu a bíblia toda alguma vez?</p>
                 <select
-                  className="form-control"
-                  name="leiturabiblica"
+                  className={`form-control ${
+                    errors.leiturabiblica ? "is-invalid" : ""
+                  }`}
                   id="leiturabiblica"
-                  value={cadMembers.leiturabiblica || ""}
-                  onChange={handleSubmitCamps}
+                  {...register("leiturabiblica")}
                 >
-                  <option value="">Selecione</option>
-                  <option value="sim">Sim</option>
+                 <option value="sim">Sim</option>
                   <option value="não">Não</option>
                 </select>
+                {errors.leiturabiblica && (
+                  <div className="invalid-feedback">
+                    {errors.leiturabiblica.message}
+                  </div>
+                )}
               </label>
               <label className="col-md-6 mb-4">
                 <p className="fs-6">
@@ -1283,10 +1452,8 @@ const Forms = () => {
                 <input
                   className="form-control"
                   type="text"
-                  name="livros"
                   id="livros"
-                  value={cadMembers.livros}
-                  onChange={handleSubmitCamps}
+                  {...register("livros")}
                 />
               </label>
               <label className="col-md-12 mb-4">
@@ -1296,15 +1463,12 @@ const Forms = () => {
 
                 <textarea
                   className="form-control"
-                  as="textarea"
-                  type="text"
-                  name="ultimasconsideracoes"
                   id="ultimasconsideracoes"
                   cols="100"
                   rows="5"
-                  value={cadMembers.ultimasconsideracoes}
-                  onChange={handleSubmitCamps}
-                ></textarea>
+                  type="text"
+                  {...register("ultimasconsideracoes")}
+                />
               </label>
             </Row>
             <Row>
@@ -1312,9 +1476,10 @@ const Forms = () => {
                 <button
                   type="button"
                   size=""
-                  className={`btn btn-primary lg mt-4 nav-Link ${exibir === "secao5" ? "active" : ""
-                    }`}
-                  onClick={() => secaotaiva("secao4")}
+                  className={`btn btn-primary lg mt-4 nav-Link ${
+                    exibir === "secao5" ? "active" : ""
+                  }`}
+                  onClick={() => handleSubmitSecao("secao4")}
                 >
                   Voltar
                 </button>
@@ -1324,9 +1489,9 @@ const Forms = () => {
                   disabled={envio}
                   className="btn btn-primary mt-4 "
                   data-bs-dismiss="toast"
-
-                >{envio ? 'Enviando...' : 'Enviar'}
-
+                  type="submit"
+                >
+                  {envio ? "Enviando..." : "Enviar"}
                 </button>
               </Col>
             </Row>
