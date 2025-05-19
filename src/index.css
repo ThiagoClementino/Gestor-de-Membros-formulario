@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Estilos personalizados para o formulário */
+@layer components {
+  .form-label {
+    @apply block text-sm font-medium text-gray-200 mb-1;
+  }
+  
+  .form-input {
+    @apply bg-gray-700 border border-gray-600 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .form-error {
+    @apply text-red-400 text-sm mt-1;
+  }
+}
+
+/* Cores personalizadas */
+:root {
+  --color-primary-500: #8d6835;
+  --color-primary-600: #7a5a2d;
+  --color-primary-700: #674c25;
+}
+
+@layer utilities {
+  .bg-primary-500 {
+    background-color: var(--color-primary-500);
+  }
+  .bg-primary-600 {
+    background-color: var(--color-primary-600);
+  }
+  .bg-primary-700 {
+    background-color: var(--color-primary-700);
+  }
+  .text-primary-500 {
+    color: var(--color-primary-500);
+  }
+}
