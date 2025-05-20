@@ -70,69 +70,69 @@ const App = () => {
   };
 
   const onSubmit = async (data) => {
-  setIsSubmitting(true);
+    setIsSubmitting(true);
 
-  try {
-    // Combinar os dados de todas as etapas
-    const finalData = { ...formData, ...data };
+    try {
+      // Combinar os dados de todas as etapas
+      const finalData = { ...formData, ...data };
 
-    // Criar um objeto limpo para enviar ao backend
-    const formattedData = {};
+      // Criar um objeto limpo para enviar ao backend
+      const formattedData = {};
 
-    // Copiar apenas campos com valores definidos (não undefined, não null, não string vazia)
-    Object.keys(finalData).forEach(key => {
-      if (finalData[key] !== undefined && finalData[key] !== null && finalData[key] !== '') {
-        formattedData[key] = finalData[key];
+      // Copiar apenas campos com valores definidos (não undefined, não null, não string vazia)
+      Object.keys(finalData).forEach(key => {
+        if (finalData[key] !== undefined && finalData[key] !== null && finalData[key] !== '') {
+          formattedData[key] = finalData[key];
+        }
+      });
+
+      // Converter campos numéricos
+      if (formattedData.qtdfilhos) {
+        formattedData.qtdfilhos = parseInt(formattedData.qtdfilhos, 10);
       }
-    });
 
-    // Converter campos numéricos
-    if (formattedData.qtdfilhos) {
-      formattedData.qtdfilhos = parseInt(formattedData.qtdfilhos, 10);
-    }
+      if (formattedData.idadefilhoum) {
+        formattedData.idadefilhoum = parseInt(formattedData.idadefilhoum, 10);
+      }
 
-    if (formattedData.idadefilhoum) {
-      formattedData.idadefilhoum = parseInt(formattedData.idadefilhoum, 10);
-    }
+      if (formattedData.idadefilhodois) {
+        formattedData.idadefilhodois = parseInt(formattedData.idadefilhodois, 10);
+      }
 
-    if (formattedData.idadefilhodois) {
-      formattedData.idadefilhodois = parseInt(formattedData.idadefilhodois, 10);
-    }
+      if (formattedData.idadefilhotres) {
+        formattedData.idadefilhotres = parseInt(formattedData.idadefilhotres, 10);
+      }
 
-    if (formattedData.idadefilhotres) {
-      formattedData.idadefilhotres = parseInt(formattedData.idadefilhotres, 10);
-    }
+      if (formattedData.idadefilhoquatro) {
+        formattedData.idadefilhoquatro = parseInt(formattedData.idadefilhoquatro, 10);
+      }
 
-    if (formattedData.idadefilhoquatro) {
-      formattedData.idadefilhoquatro = parseInt(formattedData.idadefilhoquatro, 10);
-    }
+      // Converter campos de data do formato DD/MM/YYYY para YYYY-MM-DD
+      const convertDateFormat = (dateStr) => {
+        if (!dateStr || dateStr.includes('-')) return dateStr; // Já está no formato correto ou não é uma data
 
-    // Converter campos de data do formato DD/MM/YYYY para YYYY-MM-DD
-    const convertDateFormat = (dateStr) => {
-      if (!dateStr || dateStr.includes('-')) return dateStr; // Já está no formato correto ou não é uma data
-      
-      const parts = dateStr.split('/');
-      if (parts.length !== 3) return dateStr; // Não é uma data no formato DD/MM/YYYY
-      
-      return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
-    };
+        const parts = dateStr.split('/');
+        if (parts.length !== 3) return dateStr; // Não é uma data no formato DD/MM/YYYY
 
-    // Converter campos de data conhecidos
-    if (formattedData.dateBirth) {
-      formattedData.dateBirth = convertDateFormat(formattedData.dateBirth);
-    }
-    
-    if (formattedData.databatismo) {
-      formattedData.databatismo = convertDateFormat(formattedData.databatismo);
-    }
-    
-    if (formattedData.dataconversao) {
-      formattedData.dataconversao = convertDateFormat(formattedData.dataconversao);
-    }
+        return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
+      };
 
-    console.log('Dados a serem enviados:', formattedData);
+      // Converter campos de data conhecidos
+      if (formattedData.dateBirth) {
+        formattedData.dateBirth = convertDateFormat(formattedData.dateBirth);
+      }
 
-    // Resto do código permanece igual...
+      if (formattedData.databatismo) {
+        formattedData.databatismo = convertDateFormat(formattedData.databatismo);
+      }
+
+      if (formattedData.dataconversao) {
+        formattedData.dataconversao = convertDateFormat(formattedData.dataconversao);
+      }
+
+      console.log('Dados a serem enviados:', formattedData);
+
+      // Resto do código permanece igual...
 
 
       // Enviando dados para a API
@@ -141,7 +141,7 @@ const App = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formattedData ),
+        body: JSON.stringify(formattedData),
       });
 
       // Tratamento de resposta unificado (removida a duplicação)
@@ -168,7 +168,7 @@ const App = () => {
       // Processar resposta de sucesso
       const responseText = await response.text();
       let responseData;
-      
+
       try {
         responseData = JSON.parse(responseText);
       } catch (e) {
@@ -176,13 +176,20 @@ const App = () => {
       }
 
       console.log('Cadastro realizado com sucesso:', responseData);
-      
+      alert('Cadastro realizado com sucesso:')
+
 
       // Resetar o formulário após o envio bem-sucedido
       setIsSubmitted(true);
       setFormData({});
       setCurrentStep(1);
       methods.reset();
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        // Recarregar a página após esconder a mensagem
+        window.location.reload();
+      }, 2000);
 
       // Mostrar mensagem de sucesso por 3 segundos e depois resetar
       setTimeout(() => {
@@ -191,7 +198,7 @@ const App = () => {
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
       console.log(error);
-      
+
       // Adiciona um estado de erro que poderia ser exibido na interface
       setFormError(error.message);
       <ErrorFeedback />
@@ -282,7 +289,7 @@ const App = () => {
                       </svg>
                       Enviando...
                     </>
-                   ) : (
+                  ) : (
                     'Cadastrar Membro'
                   )}
                 </button>
